@@ -3,7 +3,14 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+.idea/
+gradle/wrapper
+projectFilesBackup/
 .DS_Store
 /build
 /captures
 .externalNativeBuild
+gradle.properties
+gradlew.bat
+settings.gradle
+.gitignore
