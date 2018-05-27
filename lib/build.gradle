@@ -80,12 +80,12 @@ bintray {
     override = false
     publish = true
     pkg {
-        repo = 'KKIAPAY-ANDROID-SDK' // replace with your Bintray repo name
+        repo = 'KKIAPAY-ANDROID-SDK' // Bintray repo name
         name = 'lib' // library module name
         userOrg = 'geeckmc' //  Bintray user name
         licenses = ['MIT']
         desc = 'Android SDK for kkiapay API'
-        vcsUrl = 'https://github.com/kkiapay/android-sdk' //replace with your repo url
+        vcsUrl = 'https://github.com/kkiapay/android-sdk' // repo url
 
         version {
             name = '0.0.1' //Bintray logical version name
