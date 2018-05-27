@@ -81,12 +81,13 @@ class KkiaPay( val api_key: String) {
      * process the payment
      */
     fun take(amount: Int,cb : (STATUS,String) -> Unit) {
-        if(paymentRequest == null ) {
-            throw Exception("Kkiapay.to() should be called before request")
-        }
-        paymentRequest!!.amount = amount
 
-        request_payement(paymentRequest!!,cb)
+        paymentRequest?.let {
+            it.amount = amount
+
+            request_payement(it,cb)
+        } ?: throw Exception("Kkiapay.debit() should be called before request")
+
     }
 }
 
@@ -141,13 +142,14 @@ private fun request_payement(paymentRequest:PaymentRequest ,cb: (STATUS, String)
 
 
 
-infix fun String.take(amount : Int): ((STATUS, String) -> Unit) -> Unit {
+infix fun String.debit(amount : Int): ((STATUS, String) -> Unit) -> Unit {
 
     return {
         cb: (STATUS,String) -> Unit ->
         request_payement(PaymentRequest(amount=amount,phoneNumber = this),cb)
     }
 }
+
 
 
 private data class Transaction (val transactionId:String, val internalTransactionId: String, val status: String)
@@ -165,4 +167,23 @@ private data class PaymentRequest(val firstname: String ="", val lastname: Strin
     }
 }
 
-data class Subscriber(val phoneNumber: String, val firstName: String,val lastName: String, val country: String = "BJ")
+data class Subscriber(val phoneNumber: String, val firstName: String,val lastName: String, val country: String = "BJ"){
+    fun debit(amount: Int,cb : (STATUS,String) -> Unit ) = request_payement(
+            PaymentRequest(firstName,lastName,phoneNumber,country,amount),cb
+    )
+}
+//Redundant due to kotlin data class non inheritance behaviour
+
+ class  SubscriberBuilder {
+    private val values = mutableMapOf<String,Any>()
+    var phoneNumber: String by values
+    var firstName: String by values
+    var lastName: String by values
+    var country: String  by values
+
+    fun build() = Subscriber(phoneNumber, firstName, lastName, country)
+
+}
+
+
+fun from(builder: SubscriberBuilder.() -> Unit) : Subscriber = SubscriberBuilder().apply(builder).build()

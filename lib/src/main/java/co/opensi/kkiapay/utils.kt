@@ -28,5 +28,3 @@ class kkiaPayNotInitializedException(message: String?) : Exception(message) {
 fun is_valid_phone(phone: String): Boolean{
     return  phone.matches("""^2{1}(\d){10,}$""".toRegex())
 }
-
-
