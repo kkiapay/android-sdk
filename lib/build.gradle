@@ -42,7 +42,7 @@ bintray {
     pkg {
         repo = 'KKIAPAY-ANDROID-SDK' // Bintray repo name
         name = 'lib' // library module name
-        userOrg = 'geeckmc' //  Bintray user name
+        userOrg = 'kkiapay' //  Bintray user name
         licenses = ['MIT']
         desc = 'Android SDK for kkiapay API'
         vcsUrl = 'https://github.com/kkiapay/android-sdk' // repo url
