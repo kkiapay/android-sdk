@@ -13,9 +13,9 @@ and create your account is free and without pain.
   To add kkiapay in your android app, just add the following line in your app's `build.gradle`
 file inside `dependencies` section
 
-    ```groovy
-       implementation 'co.opensi.kkiapay:kkiapay:+'
-    ```
+```groovy
+implementation 'co.opensi.kkiapay:kkiapay:+'
+ ```
 
 Don't worry about changes, we will maintain backward compatibility of this sdk
 
