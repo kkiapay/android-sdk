@@ -10,12 +10,12 @@ and create your account is free and without pain.
 
 ## Installation
 
-  To add ```kkiapay`` in your android app, just add the following line in your app's ```build.gradle``
-file inside ``dependencies`` section`
+  To add kkiapay in your android app, just add the following line in your app's `build.gradle`
+file inside `dependencies` section
 
     ```groovy
-        implementation 'co.opensi.kkiapay:kkiapay:+'
-    ``
+       implementation 'co.opensi.kkiapay:kkiapay:+'
+    ```
 
 Don't worry about changes, we will maintain backward compatibility of this sdk
 
@@ -27,7 +27,7 @@ Don't worry about changes, we will maintain backward compatibility of this sdk
         #### Kotlin
 
           ```kotlin
-              KkiaPay("<kkiapay-api-key>")
+             KkiaPay("<kkiapay-api-key>")
           ``
         #### Java
 
@@ -40,8 +40,8 @@ Don't worry about changes, we will maintain backward compatibility of this sdk
         ### Kotlin
 
          ```kotlin
-              "22967434270" debit 100
-              //retrieve 100 FCFA to 67434270 mobile money account
+             "22967434270" debit 100
+             //retrieve 100F CFA to 67434270 mobile money account
          ```
 
 ## Testimony
