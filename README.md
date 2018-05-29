@@ -22,7 +22,7 @@ Don't worry about changes, we will maintain backward compatibility of this sdk
 
 ## Usage
 
-##### Get your API Key at [api.kkiapay.me](https://api.kkiapay.me/#/developers) and initialize the Sdk in Application Class or Activity
+##### Get your API Key on [kkiapay Dashboard at Developer section](https://api.kkiapay.me/#/developers) and initialize the Sdk in Application Class or Activity
 
 #### Kotlin
 ```kotlin
@@ -31,7 +31,7 @@ KkiaPay("<kkiapay-api-key>")
 
 #### Java
 ```java
-KKiaPay manager = new KkiaPay("<kkiapay-api-key>")
+KKiaPay manager = new KkiaPay("<kkiapay-api-key>");
 ```
 
 ### Submit a debit request to a mobile money account
