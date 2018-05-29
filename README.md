@@ -27,12 +27,12 @@ Don't worry about changes, we will maintain backward compatibility of this sdk
         #### Kotlin
 
           ```kotlin
-             KkiaPay("<kkiapay-api-key>")
+          KkiaPay("<kkiapay-api-key>")
           ``
         #### Java
 
           ```java
-            KKiaPay manager = new KkiaPay("<kkiapay-api-key>")
+          KKiaPay manager = new KkiaPay("<kkiapay-api-key>")
           ```
 
    ### Submit a debit request to a mobile money account
@@ -40,8 +40,8 @@ Don't worry about changes, we will maintain backward compatibility of this sdk
         ### Kotlin
 
          ```kotlin
-             "22967434270" debit 100
-             //retrieve 100F CFA to 67434270 mobile money account
+         "22967434270" debit 100
+         //retrieve 100F CFA to 67434270 mobile money account
          ```
 
 ## Testimony
