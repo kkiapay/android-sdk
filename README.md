@@ -25,12 +25,11 @@ Don't worry about changes, we will maintain backward compatibility of this sdk
 ##### Get your API Key at [api.kkiapay.me](https://api.kkiapay.me/#/developers) and initialize the Sdk in Application Class or Activity
 
 #### Kotlin
-
 ```kotlin
 KkiaPay("<kkiapay-api-key>")
-``
-#### Java
+```
 
+#### Java
 ```java
 KKiaPay manager = new KkiaPay("<kkiapay-api-key>")
 ```
@@ -38,7 +37,6 @@ KKiaPay manager = new KkiaPay("<kkiapay-api-key>")
 ### Submit a debit request to a mobile money account
 
 ### Kotlin
-
 ```kotlin
 "22967434270" debit 100
 //retrieve 100F CFA to 67434270 mobile money account
