@@ -41,15 +41,15 @@ bintray {
     publish = true
     pkg {
         repo = 'KKIAPAY-ANDROID-SDK' // Bintray repo name
-        name = 'lib' // library module name
+        name = 'android-sdk' // library module name
         userOrg = 'kkiapay' //  Bintray user name
         licenses = ['MIT']
         desc = 'Android SDK for kkiapay API'
         vcsUrl = 'https://github.com/kkiapay/android-sdk' // repo url
 
         version {
-            name = '0.0.2' //Bintray logical version name
-            vcsTag = '0.0.2'
+            name = '0.0.3' //Bintray logical version name
+            vcsTag = '0.0.3'
         }
     }
     publications = ['Production']
