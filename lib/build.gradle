@@ -13,7 +13,7 @@ publishing {
             artifact("$buildDir/outputs/aar/lib-release.aar")
             groupId 'co.opensi.kkiapay' // replace with your groupId
             artifactId 'kkiapay' // replace with your artifactId
-            version '0.0.2'
+            version '0.0.4'
 
             //The publication doesn't know about our dependencies, so we have to manually add them to the pom
             pom.withXml {
@@ -48,8 +48,8 @@ bintray {
         vcsUrl = 'https://github.com/kkiapay/android-sdk' // repo url
 
         version {
-            name = '0.0.3' //Bintray logical version name
-            vcsTag = '0.0.3'
+            name = '0.0.4' //Bintray logical version name
+            vcsTag = '0.0.4'
         }
     }
     publications = ['Production']
@@ -63,8 +63,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 3
-        versionName "0.0.3"
+        versionCode 4
+        versionName "0.0.4"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

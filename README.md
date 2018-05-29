@@ -1,6 +1,6 @@
 ## Kkiapay
 
-[![Build Status](https://travis-ci.org/kkiapay/android-sdk.svg?branch=master)](https://travis-ci.org/kkiapay/android-sdk) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/co.opensi.kkiapay/kkiapay/badge.svg)](https://maven-badges.herokuapp.com/maven-central/co.opensi.kkiapay/kkiapay)
+[![Build Status](https://travis-ci.org/kkiapay/android-sdk.svg?branch=master)](https://travis-ci.org/kkiapay/android-sdk)    [![Maven Central](https://maven-badges.herokuapp.com/maven-central/co.opensi.kkiapay/kkiapay/badge.svg)](https://maven-badges.herokuapp.com/maven-central/co.opensi.kkiapay/kkiapay)
 
 [Kkiapay](https://kkiapay.me) is developer friendly solution that allows you to accept mobile money and credit card payments
 in your application or website.
