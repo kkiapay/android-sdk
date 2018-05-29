@@ -10,6 +10,8 @@ and create your account is free and without pain.
 
 ## Installation
 
+### Android Studio ( or Gradle )
+
   To add kkiapay in your android app, just add the following line in your app's `build.gradle`
 file inside `dependencies` section
 
@@ -43,4 +45,3 @@ KKiaPay manager = new KkiaPay("<kkiapay-api-key>");
 ```
 
 ## Testimony
-### Android Studio ( or Gradle )
