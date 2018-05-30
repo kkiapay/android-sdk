@@ -37,12 +37,11 @@ deploy:
 - provider: releases
   api_key:
     secure: "DwxIYcxknp3IEh9oIxLrEvWBvicVzB2xhakmtwtufarUIpWgXv7Wu6AIb/609gJAFf+vTChwpXBK+YwZDGcGEhZxGuAwR7HQgQK5PS/VWO+5s1XoKJ5G/WlRiGBL8lfsgj1+4OsJhPF2V1cGxt0RZ4Og9f5P5ip51Cd1n1AwiKMFdu6ZQgtIoWJwYhTMa2zviPmdhWCro9J4jxP/TAvoBvtT/y85NEgYUGJFx5Yiv1zzglOIpUB+3xTkp+m4xHSGTSJEGWQ/fTO3feLn9V8w48my8Z5VYSfFtEdmH6kgkjdpYjdbQyGISf59I1hXVBcMrmsItm7P2VFQO2wCMLMHiT3KXwozwazKoKyxMliilPiBfFnTxW0/5OKhKyU1uSchgfo+L8sxN1mDgcMmObgdPwE5tbFyEQAQXleaOGD/TE+Gqbb6N18g/6WshKtP8+epFyB0sYPwdfit4ETLNCh1T2gI5NcxC385gB+PAtm/lJOHFiLmyoiyx+rxJrl31Mz3P7aqWUdv6akxrx7A1bioY12wL61z7D81FrU0Wc38IkoaTUMR7e7VWZ4BnBMkEZZGQzALDUrQ0JN/GRPs+QIQWR/JBSUar7FT9i4WgCs3FGR2DYsTQcYy+ML7m/qehs2QU8c58+eukhqaUev0998CWzCBAJt2bSDCMxbj5bB75Qs="
-  file:
-    - lib/build/outputs/aar/lib-release.aar
+  file: ./lib/build/outputs/aar/*-release.aar
   skip_cleanup: true
-     on:
-        branch: master
-        tags: true
+  on:
+    branch: master
+    tags: true
 after_success:
   - |
 
