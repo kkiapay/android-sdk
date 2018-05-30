@@ -1,44 +1,56 @@
 language: android
-
 jdk: oraclejdk8
-
 sudo: false
-
 before_cache:
-    - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
-  directories:      #Cache all dirs under .gradle folder
-    - $HOME/.gradle/daemon      #Cache daemon logs
-    - $HOME/.gradle/native      #Cache library downloaded from the gradle dependency
-    - $HOME/.gradle/wrapper     #Cache the gradle
-
+  directories:
+  - "$HOME/.gradle/daemon"
+  - "$HOME/.gradle/native"
+  - "$HOME/.gradle/wrapper"
 android:
   components:
-    - platform-tools
-    - tools
-    - build-tools-27.0.3
-    - android-27
-    - sys-img-armeabi-v7a-android-24
-    - extra-android-m2repository
-    - extra-google-m2repository
-    - extra-android-support
-    - extra-google-google_play_services
-
+  - platform-tools
+  - tools
+  - build-tools-27.0.3
+  - android-27
+  - sys-img-armeabi-v7a-android-24
+  - extra-android-m2repository
+  - extra-google-m2repository
+  - extra-android-support
+  - extra-google-google_play_services
 before_install:
-  - mkdir "$ANDROID_HOME/licenses" || true
-  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
-  - chmod +x gradlew
-  - ls -la
-
+- mkdir "$ANDROID_HOME/licenses" || true
+- echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+- echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+- chmod +x gradlew
 script:
-    - ./gradlew clean build
-
+- "./gradlew clean build"
 deploy:
-  provider: script
-  script: ./gradlew :clean :lib:assembleRelease :lib:bintrayUpload && ls -la
-  skip_cleanup: true # to upload artifacts created during the build
+- provider: script
+  script: "./gradlew :clean :lib:assembleRelease :lib:bintrayUpload"
+  skip_cleanup: true
   dry-run: false
   on:
     branch: master
+    tags: true
+- provider: releases
+  api_key:
+    secure: "DwxIYcxknp3IEh9oIxLrEvWBvicVzB2xhakmtwtufarUIpWgXv7Wu6AIb/609gJAFf+vTChwpXBK+YwZDGcGEhZxGuAwR7HQgQK5PS/VWO+5s1XoKJ5G/WlRiGBL8lfsgj1+4OsJhPF2V1cGxt0RZ4Og9f5P5ip51Cd1n1AwiKMFdu6ZQgtIoWJwYhTMa2zviPmdhWCro9J4jxP/TAvoBvtT/y85NEgYUGJFx5Yiv1zzglOIpUB+3xTkp+m4xHSGTSJEGWQ/fTO3feLn9V8w48my8Z5VYSfFtEdmH6kgkjdpYjdbQyGISf59I1hXVBcMrmsItm7P2VFQO2wCMLMHiT3KXwozwazKoKyxMliilPiBfFnTxW0/5OKhKyU1uSchgfo+L8sxN1mDgcMmObgdPwE5tbFyEQAQXleaOGD/TE+Gqbb6N18g/6WshKtP8+epFyB0sYPwdfit4ETLNCh1T2gI5NcxC385gB+PAtm/lJOHFiLmyoiyx+rxJrl31Mz3P7aqWUdv6akxrx7A1bioY12wL61z7D81FrU0Wc38IkoaTUMR7e7VWZ4BnBMkEZZGQzALDUrQ0JN/GRPs+QIQWR/JBSUar7FT9i4WgCs3FGR2DYsTQcYy+ML7m/qehs2QU8c58+eukhqaUev0998CWzCBAJt2bSDCMxbj5bB75Qs="
+  file:
+    - lib/build/outputs/aar/lib-release.aar
+  skip_cleanup: true
+     on:
+        branch: master
+        tags: true
+after_success:
+  - |
+
+         $(npm bin)/set-up-ssh --key "$encrypted_eb562359807d_key" \
+                               --iv "$encrypted_eb562359807d_iv" \
+                               --path-encrypted-key ".travis_ci.enc"
+env:
+  - GH_EMAIL="nafiouali@gmail.com"
+  - GH_USER="geeckmc"
+  global:
+    - secure: "DwxIYcxknp3IEh9oIxLrEvWBvicVzB2xhakmtwtufarUIpWgXv7Wu6AIb/609gJAFf+vTChwpXBK+YwZDGcGEhZxGuAwR7HQgQK5PS/VWO+5s1XoKJ5G/WlRiGBL8lfsgj1+4OsJhPF2V1cGxt0RZ4Og9f5P5ip51Cd1n1AwiKMFdu6ZQgtIoWJwYhTMa2zviPmdhWCro9J4jxP/TAvoBvtT/y85NEgYUGJFx5Yiv1zzglOIpUB+3xTkp+m4xHSGTSJEGWQ/fTO3feLn9V8w48my8Z5VYSfFtEdmH6kgkjdpYjdbQyGISf59I1hXVBcMrmsItm7P2VFQO2wCMLMHiT3KXwozwazKoKyxMliilPiBfFnTxW0/5OKhKyU1uSchgfo+L8sxN1mDgcMmObgdPwE5tbFyEQAQXleaOGD/TE+Gqbb6N18g/6WshKtP8+epFyB0sYPwdfit4ETLNCh1T2gI5NcxC385gB+PAtm/lJOHFiLmyoiyx+rxJrl31Mz3P7aqWUdv6akxrx7A1bioY12wL61z7D81FrU0Wc38IkoaTUMR7e7VWZ4BnBMkEZZGQzALDUrQ0JN/GRPs+QIQWR/JBSUar7FT9i4WgCs3FGR2DYsTQcYy+ML7m/qehs2QU8c58+eukhqaUev0998CWzCBAJt2bSDCMxbj5bB75Qs="
