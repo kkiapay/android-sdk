@@ -30,18 +30,20 @@ Don't worry about changes, we will maintain backward compatibility of this sdk
 ```kotlin
 KkiaPay("<kkiapay-api-key>")
 ```
+### Submit a debit request to a mobile money account
+```kotlin
+"22967434270" debit 100
+//retrieve 100F CFA to 67434270 mobile money account
+```
 
 #### Java
 ```java
 KKiaPay manager = new KkiaPay("<kkiapay-api-key>");
 ```
-
 ### Submit a debit request to a mobile money account
-
-### Kotlin
-```kotlin
-"22967434270" debit 100
-//retrieve 100F CFA to 67434270 mobile money account
+```java
+KKiaPay manager = new KkiaPay("<kkiapay-api-key>");
+manager.to("22967434270").take(100,{ status,message -> System.out.println(message)});
 ```
 
 ## Testimony
