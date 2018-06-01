@@ -32,7 +32,7 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: $GH_TOKEN
-  file: "./lib/build/outputs/aar/*-release.aar"
+  file: "lib/build/outputs/aar/lib-release.aar"
   on:
     branch: master
     tags: true
