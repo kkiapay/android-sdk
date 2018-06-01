@@ -33,7 +33,6 @@ deploy:
   dry-run: false
   on:
     branch: master
-    tags: true
 - provider: releases
   api_key:
     secure: "MIIEpAIBAAKCAQEA1Z40UDHhNBV9F4TiNsfz2zCZHx6Rdi3zKLIBOWcJb/2uy44X
@@ -65,7 +64,6 @@ deploy:
   skip_cleanup: true
   on:
     branch: master
-    tags: true
 after_success:
   - |
 
