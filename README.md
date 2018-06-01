@@ -24,7 +24,7 @@ Don't worry about changes, we will maintain backward compatibility of this sdk
 
 ## Usage
 
- Get your API Key on [kkiapay Dashboard at Developer section](https://api.kkiapay.me/#/developers) and initialize the Sdk in Application Class or Activity
+ Get your API Key on [kkiapay Dashboard at Developer section](https://kkiapay.me/#/developers) and initialize the Sdk in Application Class or Activity
 
 #### Kotlin
 ```kotlin
@@ -45,3 +45,5 @@ KKiaPay manager = new KkiaPay("<kkiapay-api-key>");
 ```
 
 ## Testimony
+
+[Go MEDICAL]
