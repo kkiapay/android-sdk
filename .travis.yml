@@ -36,7 +36,31 @@ deploy:
     tags: true
 - provider: releases
   api_key:
-    secure: "DwxIYcxknp3IEh9oIxLrEvWBvicVzB2xhakmtwtufarUIpWgXv7Wu6AIb/609gJAFf+vTChwpXBK+YwZDGcGEhZxGuAwR7HQgQK5PS/VWO+5s1XoKJ5G/WlRiGBL8lfsgj1+4OsJhPF2V1cGxt0RZ4Og9f5P5ip51Cd1n1AwiKMFdu6ZQgtIoWJwYhTMa2zviPmdhWCro9J4jxP/TAvoBvtT/y85NEgYUGJFx5Yiv1zzglOIpUB+3xTkp+m4xHSGTSJEGWQ/fTO3feLn9V8w48my8Z5VYSfFtEdmH6kgkjdpYjdbQyGISf59I1hXVBcMrmsItm7P2VFQO2wCMLMHiT3KXwozwazKoKyxMliilPiBfFnTxW0/5OKhKyU1uSchgfo+L8sxN1mDgcMmObgdPwE5tbFyEQAQXleaOGD/TE+Gqbb6N18g/6WshKtP8+epFyB0sYPwdfit4ETLNCh1T2gI5NcxC385gB+PAtm/lJOHFiLmyoiyx+rxJrl31Mz3P7aqWUdv6akxrx7A1bioY12wL61z7D81FrU0Wc38IkoaTUMR7e7VWZ4BnBMkEZZGQzALDUrQ0JN/GRPs+QIQWR/JBSUar7FT9i4WgCs3FGR2DYsTQcYy+ML7m/qehs2QU8c58+eukhqaUev0998CWzCBAJt2bSDCMxbj5bB75Qs="
+    secure: "MIIEpAIBAAKCAQEA1Z40UDHhNBV9F4TiNsfz2zCZHx6Rdi3zKLIBOWcJb/2uy44X
+             NjrYTa0AyRmL5lNQItBiiI4QEy1vLJ7smrSbOI2fYoQqlT96JyJxUcD9wXeGh09o
+             CYoOt6AEt8CtNa/fZKV2Ygx/GavmdgJFRFUG7+St+010EaD5GrXMpEeU33bODx4L
+             mMQ2BKjB+vGp7o62z7DzPUscgUVZ+sISLtTfbd2+hNSsr9mLDHYjOsKhF1oEPoar
+             wJNAAKWUcdCf3JTSkCWoQX/VYnRJsrd2jqJq9cb+vf1EL82xWd45BTedyAegtZk1
+             RZVCQgR9evUzjiOWMMbyesnebnlPhLrsbChODQIDAQABAoIBAQCkyLx8HG4n2me7
+             y9MhBQ+0xwFngxIcwwdvHhlZqYUbMesztPFs8OnIyarwdld4Hk6T/IH16vi1gnff
+             SN0l3ipa7szDl0auCOB27dfSg/h71HMfT/7mVOxTdAoPoX88CeZe4lC3BALLz9Ig
+             uFGsi5alWZdoYvAlZTKkCxfIpjtOQRLYsI4h6q5PANP2noybkEYV78WEvOP/wBya
+             +jHC0fhfEhW65aI3T2YJy2xAByDl2LH5I60V1tJLTEZHLtDS3GN6UJtOjOPkRRG2
+             8mN1NwdxXuRsTScAtdnCRezMAhq3NMzSNf7Qa9L8USXF5H+3p70dFRDdE+jxaxeY
+             JXvbtylVAoGBAPmLuI73pjk1QBxA7luJztd2J7fiUHJ0hbbjbZr0KJxekMpH8DpV
+             kskFm6YFVALZoDTGHpz5jis4rXfZ8bK0UUh2aWQB511r8g8LI/4t/xa+Stzpjs82
+             dkZuR05K+17L6LpRN3Bp1KaX44iG91/u1lFTUCNxIkO4H7wlelWX+2AHAoGBANsk
+             maeouVF2lDyVt9bh5tcRwzmkKLShP7A9yQ+VW00TY8w+ful6h5Z/WBS+11ukaqD7
+             Ai2bta9wWPbDr/RijAfupGHyXytoX5KWVqBwbKgtbS9UMrpb19VCX9e+YMXGvufQ
+             ovcVhFJR5DilSebnh4oK3sYS9o3HGH7pxFGSAHRLAoGAFftd1ZIxHUb4j8SUepHI
+             G6i31PXlmj9za+naxNSPIz8dSARQQAM7u+N3k4dSoDGlcCCnn7JH+Ly0YyNarCBA
+             LL7ph7q3M76HgxW7JO/OUaWPmKgmQVCN2KRsOZRXUkFqDceLt6ZK6iXlECi7b8Lt
+             NBq/q2+S0h5NBVjTzuhlZ08CgYBfZvCpx89dwqTIN1nAZ7oqOSZniqrZ8DUc0dkd
+             OqVzyZQxz6dKl7g9cZTz+x0gXVS6XmxVVKtlBCEG1KxeVSSnM2JG7dA2woqQ83gl
+             AqybDqOw7hPjg6ZTxkCZWN0iXOKxYuf/b1OazuHvMy4YIwWjuBXB33GMyXdFkRmR
+             dWFTPwKBgQDb+TQJ57V/NmC2hOyNdDrB12YvuC6Pd3sNwQoCdUPagYZMK3gNvZgz
+             mCiu6/ZPaNR+RldoTayQVSacFbRDCepUrwdKm+HgLW768LIX1u87m2dLfMUbgSQH
+             kNcjmrLoTHZ9YzroDTWpqxEaMhcTTzbZqD6L54AZxG0eo7JelZ7B+Q==/609gJAFf+vTChwpXBK+YwZDGcGEhZxGuAwR7HQgQK5PS/VWO+5s1XoKJ5G/WlRiGBL8lfsgj1+4OsJhPF2V1cGxt0RZ4Og9f5P5ip51Cd1n1AwiKMFdu6ZQgtIoWJwYhTMa2zviPmdhWCro9J4jxP/TAvoBvtT/y85NEgYUGJFx5Yiv1zzglOIpUB+3xTkp+m4xHSGTSJEGWQ/fTO3feLn9V8w48my8Z5VYSfFtEdmH6kgkjdpYjdbQyGISf59I1hXVBcMrmsItm7P2VFQO2wCMLMHiT3KXwozwazKoKyxMliilPiBfFnTxW0/5OKhKyU1uSchgfo+L8sxN1mDgcMmObgdPwE5tbFyEQAQXleaOGD/TE+Gqbb6N18g/6WshKtP8+epFyB0sYPwdfit4ETLNCh1T2gI5NcxC385gB+PAtm/lJOHFiLmyoiyx+rxJrl31Mz3P7aqWUdv6akxrx7A1bioY12wL61z7D81FrU0Wc38IkoaTUMR7e7VWZ4BnBMkEZZGQzALDUrQ0JN/GRPs+QIQWR/JBSUar7FT9i4WgCs3FGR2DYsTQcYy+ML7m/qehs2QU8c58+eukhqaUev0998CWzCBAJt2bSDCMxbj5bB75Qs="
   file: ./lib/build/outputs/aar/*-release.aar
   skip_cleanup: true
   on:
