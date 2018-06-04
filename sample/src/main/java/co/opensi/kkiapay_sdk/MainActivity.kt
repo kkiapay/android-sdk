@@ -3,7 +3,9 @@ package co.opensi.kkiapay_sdk
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import co.opensi.kkiapay.*
+import co.opensi.kkiapay.KkiaPay
+import co.opensi.kkiapay.STATUS
+import co.opensi.kkiapay.debit
 
 
 class MainActivity : AppCompatActivity() {
@@ -14,23 +16,30 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-       KkiaPay("<kkiapay-api-key>")
-        //should be replaced with the correct api-key
 
 
 
-        //inline sample
-        ("22967434270" debit 10) { status, _ -> Log.e("end",status.toString()) }
 
 
+        //Initialisation de l'API
+            KkiaPay("DSKGFF45VSVQFBVF2FSRVSFDX7DZ6VQ4SSV5")
 
-        // send more information about user
-        //usefull on dashboard.kkiapay.me
-        from {
-            phoneNumber = "222"
-            firstName = "ALI"
-            lastName = "ARC"
-        }.debit(10) { status: STATUS, s: String -> }
+        //Débit de 1500 a l'utilisateur dont le numero de téléphone est 67 43 42 70
+        ("22967434270" debit  1500) {
+
+            status, _ -> when (status) {
+
+
+               STATUS.SUCCESS -> displayToUser("Bravooo")
+            }
+
+        }
+
+
+    }
+
+
+    fun displayToUser( a: String){
 
     }
 
