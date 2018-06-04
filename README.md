@@ -49,7 +49,7 @@ KkiaPay("<kkiapay-api-key>")
         //handle response
    }
 ```
-
+-------
 
 #### JAVA
 ##### Initiate the API
