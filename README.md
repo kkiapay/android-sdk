@@ -87,15 +87,15 @@ KkiaPay manager = new KkiaPay("");
 
 #### TODO
 
-[x] MTN Mobile Money
+- [x] MTN Mobile Money
 
-[ ] Cash 
+- [ ] Cash 
 
-[ ] Flooz money
+- [ ] Flooz money
 
-[ ] Visa & Master Card
+- [ ] Visa & Master Card
 
-[ ] Ecobank Express Cash
+- [ ] Ecobank Express Cash
 
 
 #### Testimony
