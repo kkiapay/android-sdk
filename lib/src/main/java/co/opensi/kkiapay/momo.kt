@@ -15,7 +15,7 @@ import com.google.gson.Gson
 
 val MTN_MOMO_PAYMENTS_BACK =  "payment_back"
 
-var instance: KkiaPay? = null
+private var instance: KkiaPay? = null
 
 class KkiaPay( val api_key: String) {
 
@@ -60,7 +60,7 @@ class KkiaPay( val api_key: String) {
      */
     fun to(subscriber: Subscriber): KkiaPay {
         if(!sdkIsInitailized) throw kkiaPayNotInitializedException("")
-        paymentRequest = PaymentRequest(subscriber.firstName, subscriber.lastName, subscriber.phoneNumber, subscriber.country)
+        paymentRequest = PaymentRequest(subscriber.firstName, subscriber.lastName, subscriber.phoneNumber)
         return this
     }
 
@@ -88,6 +88,13 @@ class KkiaPay( val api_key: String) {
             request_payement(it,cb)
         } ?: throw Exception("Kkiapay.debit() should be called before request")
 
+    }
+
+    /**
+     * utility for jvm compatibility
+     */
+    fun take(amount: Int, cb: KKiapayCallback ){
+        take(amount,cb)
     }
 }
 
@@ -160,16 +167,16 @@ private data class PaymentStatus(val transactionId:String, val status: String, v
 private data class Error(val status: Int,val reason: String)
 
 private data class PaymentRequest(val firstname: String ="", val lastname: String="", val phoneNumber: String,
-                          val country: String = "BJ", var amount: Int = 0, var transactionId: String = "") {
+                                  var amount: Int = 0, var transactionId: String = "") {
 
     fun json() = Gson().toJson(this).apply {
         this.replace("phone_number", "phoneNumber")
     }
 }
 
-data class Subscriber(val phoneNumber: String, val firstName: String,val lastName: String, val country: String = "BJ"){
+data class Subscriber(val phoneNumber: String, val firstName: String,val lastName: String){
     fun debit(amount: Int,cb : (STATUS,String) -> Unit ) = request_payement(
-            PaymentRequest(firstName,lastName,phoneNumber,country,amount),cb
+            PaymentRequest(firstName,lastName,phoneNumber,amount),cb
     )
 }
 //Redundant due to kotlin data class non inheritance behaviour
@@ -179,9 +186,8 @@ data class Subscriber(val phoneNumber: String, val firstName: String,val lastNam
     var phoneNumber: String by values
     var firstName: String by values
     var lastName: String by values
-    var country: String  by values
 
-    fun build() = Subscriber(phoneNumber, firstName, lastName, country)
+    fun build() = Subscriber(phoneNumber, firstName, lastName)
 
 }
 
