@@ -31,7 +31,7 @@ public class MA extends AppCompatActivity {
         manager.to(subscriber)
                 .take(1500, new KKiapayCallback() {
                     @Override
-                    public void onResponse(@NotNull STATUS status, @NotNull String phone) {
+                    public void onResponse(@NotNull STATUS status, @NotNull String phone, @NotNull String transactionId) {
 
                     }
                 });

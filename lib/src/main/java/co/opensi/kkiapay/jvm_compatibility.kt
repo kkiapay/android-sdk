@@ -5,5 +5,5 @@ package co.opensi.kkiapay
  */
 interface KKiapayCallback {
 
-    fun onResponse(status: STATUS, phone: String)
+    fun onResponse(status: STATUS, phone: String, transactionId: String)
 }
