@@ -45,7 +45,7 @@ KkiaPay("<kkiapay-api-key>")
           firstName = "ALI"
           lastName = "SHAD"
           
-  }.debit(100) { status: STATUS, s: String ->
+  }.debit(100) { status, phone, transactionId ->
         //handle response
    }
 ```
@@ -62,7 +62,7 @@ KkiaPay manager = new KkiaPay("");
         .take(1500, new KKiapayCallback() {
            @Override
            public void onResponse(@NotNull STATUS status,
-            @NotNull String phone) {
+            @NotNull String phone, @NotNull String transactionId ) {
                
                 //handle response                 
        }
@@ -78,7 +78,7 @@ KkiaPay manager = new KkiaPay("");
         .take(1500, new KKiapayCallback() {
            @Override
            public void onResponse(@NotNull STATUS status,
-            @NotNull String phone) {
+            @NotNull String phone , @NotNull String transactionId ) {
                //handle response
 
      }

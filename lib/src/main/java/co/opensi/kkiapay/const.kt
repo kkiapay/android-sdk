@@ -16,9 +16,12 @@ val JSON_APPLICATION = "application/json"
 
 val NEW_PAYMENT_ENDPOINT = "payments/request"
 
+val CLAIM_NEW_CHANNEL_ENDPOINT="utils/claimchannel"
+
 val IS_INSUFFICIENT_FUND = "insufficent_fund"
 
-val PUBLIC_API_KEY = "fd90fb08dd97f5db5f16"
+//legacy
+var PUBLIC_API_KEY = ""
 
 enum class STATUS {
     SUCCESS,FAILED,INSUFFICIENT_FUND ,PENDING,INVALID_PHONE_NUMBER, INVALID_API_KEY
