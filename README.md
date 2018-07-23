@@ -6,7 +6,7 @@
 in your application or website.
 
 Before using this SDK, make sure you have a right Merchant Account on [Kkiapay](https://kkiapay.me), otherwise [go](https://kkiapay.me)
-and create your account is free and without pain.
+and create your account is free and without pain :sunglasses:.
 
 ## Installation
 
@@ -27,7 +27,7 @@ Don't worry about changes, we will maintain backward compatibility of this sdk
  Get your API Key on [kkiapay Dashboard at Developer section](https://kkiapay.me/#/developers) and initialize the Sdk in Application Class or Activity
 
 #### Kotlin
-You still use java jump to this [section](####java)
+You still use java :frowning:, jump to this [section](#java) :frowning:
 ##### Initiate the API
 ```kotlin
 KkiaPay("<kkiapay-api-key>")
@@ -126,7 +126,7 @@ KkiaPay api = new KkiaPay("<your-api-key>");
 
 
 
-#### Testimony
+#### Testimony :heart:
 
 [GoMedical](https://play.google.com/store/apps/details?id=co.opensi.medical)
 [MTN MOMO SHOP](http://opensi.co)
