@@ -27,17 +27,32 @@ Don't worry about changes, we will maintain backward compatibility of this sdk
  Get your API Key on [kkiapay Dashboard at Developer section](https://kkiapay.me/#/developers) and initialize the Sdk in Application Class or Activity
 
 #### Kotlin
+You still use java jump to this [section](####java)
 ##### Initiate the API
 ```kotlin
 KkiaPay("<kkiapay-api-key>")
 ```
 **Quick payment request**
+
 ```kotlin
 "22967434270" debit 100
 //To recover 100 XOF from account (674324270)
 ```
 
-**Complete payment request**
+To manage request status you should process like this
+```kotlin
+ ("22967434270" debit  100) { status, _, _ -> when (status) {
+
+               STATUS.SUCCESS -> // payment is succed
+               STATUS.INSUFFICIENT_FUND -> // user haven't enough money
+               // .....
+            }
+
+        }
+//To recover 100 XOF from account (674324270)
+```
+
+**Complete payment request with user's data**
 ```kotlin
 // subscrber details are usefull on dashboard.kkiapay.me
   from {
@@ -54,17 +69,29 @@ KkiaPay("<kkiapay-api-key>")
 #### JAVA
 ##### Initiate the API
 ```java
-KkiaPay manager = new KkiaPay("<your-api-key>");
+KkiaPay api = new KkiaPay("<your-api-key>");
 ```
 **Request a payment**
 ```java
- manager.to("22967434270")
-        .take(1500, new KKiapayCallback() {
+ api.from("22967434270")
+        .debit(1500, new KKiapayCallback() {
            @Override
            public void onResponse(@NotNull STATUS status,
             @NotNull String phone, @NotNull String transactionId ) {
+            
+               switch (status) {
+                     
+                  case FAILED :
+                           // .....
+                        break;
+                  case SUCCESS :
+                          //....
+                        break;
+                  case INSUFFICIENT_FUND :
+                        //...
+                      break;
+                }           
                
-                //handle response                 
        }
   });
 ```
@@ -74,8 +101,8 @@ KkiaPay manager = new KkiaPay("<your-api-key>");
 // subscrber details are usefull on dashboard.kkiapay.me
  Subscriber subscriber =  new Subscriber("22967434270","ALI","SHAD");
         
- manager.to(subscriber)
-        .take(1500, new KKiapayCallback() {
+ manager.from(subscriber)
+        .debit(1500, new KKiapayCallback() {
            @Override
            public void onResponse(@NotNull STATUS status,
             @NotNull String phone , @NotNull String transactionId ) {
@@ -85,17 +112,20 @@ KkiaPay manager = new KkiaPay("<your-api-key>");
   });
 ```
 
-#### TODO
+//,FAILED,INSUFFICIENT_FUND ,PENDING,INVALID_PHONE_NUMBER, INVALID_API_KEY
 
-- [x] MTN Mobile Money
+#### COMPLETE STATUS LIST
 
-- [ ] Cash 
+| STATUS      | DESCRIPTION             |
+| ----------- | ----------------------- |
+|  SUCCESS    |                         |
+| FAILED      |                         |
+| INSUFFICIENT_FUND    |                |
+| INVALID_PHONE_NUMBER |                |
+| INVALID_API_KEY |                     |
 
-- [ ] Flooz money
 
-- [ ] Visa & Master Card
 
-- [ ] Ecobank Express Cash
 
 
 #### Testimony
