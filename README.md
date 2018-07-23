@@ -49,7 +49,6 @@ To manage request status you should process like this
             }
 
         }
-//To recover 100 XOF from account (674324270)
 ```
 
 **Complete payment request with user's data**
@@ -112,7 +111,6 @@ KkiaPay api = new KkiaPay("<your-api-key>");
   });
 ```
 
-//,FAILED,INSUFFICIENT_FUND ,PENDING,INVALID_PHONE_NUMBER, INVALID_API_KEY
 
 #### COMPLETE STATUS LIST
 
@@ -131,6 +129,8 @@ KkiaPay api = new KkiaPay("<your-api-key>");
 #### Testimony
 
 [GoMedical](https://play.google.com/store/apps/details?id=co.opensi.medical)
+[MTN MOMO SHOP](http://opensi.co)
+
 
 
 LICENSE
