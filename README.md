@@ -41,7 +41,7 @@ KkiaPay("<kkiapay-api-key>")
 
 To manage request status you should process like this
 ```kotlin
- ("22967434270" debit  100) { status, _, _ -> when (status) {
+ ("22967434270" debit  100) { status, phone, transactionId -> when (status) {
 
                STATUS.SUCCESS -> // payment is succed
                STATUS.INSUFFICIENT_FUND -> // user haven't enough money
