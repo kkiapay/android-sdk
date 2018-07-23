@@ -27,7 +27,7 @@ Don't worry about changes, we will maintain backward compatibility of this sdk
  Get your API Key on [kkiapay Dashboard at Developer section](https://kkiapay.me/#/developers) and initialize the Sdk in Application Class or Activity
 
 #### Kotlin
-You still use java :frowning:, jump to this [section](#java) :frowning:
+You still use java ? :frowning:, jump to this [section](#java) :frowning:
 ##### Initiate the API
 ```kotlin
 KkiaPay("<kkiapay-api-key>")
