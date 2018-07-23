@@ -19,7 +19,7 @@ val MTN_MOMO_PAYMENTS_BACK =  "payment_back"
 
 private var instance: KkiaPay? = null
 
-class KkiaPay( val api_key: String) {
+class KkiaPay(api_key: String) {
 
 
     init {
@@ -62,7 +62,7 @@ class KkiaPay( val api_key: String) {
      * @param Subscriber
      * @return KkiaPay
      */
-    fun to(subscriber: Subscriber): KkiaPay {
+    fun from(subscriber: Subscriber): KkiaPay {
         if(!sdkIsInitailized) throw kkiaPayNotInitializedException("")
         paymentRequest = PaymentRequest(subscriber.firstName, subscriber.lastName, subscriber.phoneNumber)
         return this
@@ -74,7 +74,7 @@ class KkiaPay( val api_key: String) {
      * @param String
      * @return KkiaPay
      */
-    fun to(phoneNumber: String): KkiaPay {
+    fun from(phoneNumber: String): KkiaPay {
         if(!sdkIsInitailized) throw kkiaPayNotInitializedException("")
         paymentRequest = PaymentRequest(phoneNumber = phoneNumber)
         return this
@@ -86,7 +86,7 @@ class KkiaPay( val api_key: String) {
      *  [amount]  String -- amount to debit
      *  [cb]
      */
-    fun take(amount: Int,cb : (STATUS,String,String) -> Unit) {
+    private fun _take(amount: Int,cb : (STATUS,String,String) -> Unit) {
 
         paymentRequest?.let {
             it.amount = amount
@@ -99,8 +99,8 @@ class KkiaPay( val api_key: String) {
     /**
      * utility for jvm compatibility
      */
-    fun take(amount: Int, cb: KKiapayCallback ){
-        take(amount,cb)
+    fun debit(amount: Int, cb: KKiapayCallback ){
+        _take(amount,{ status: STATUS, phone: String, transactionId: String -> cb.onResponse(status,phone, transactionId) })
     }
 }
 

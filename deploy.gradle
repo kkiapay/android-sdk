@@ -11,9 +11,9 @@ publishing {
 
             //The publication doesn't know about our dependencies, so we have to manually add them to the pom
             pom.withXml {
-                //def dependenciesNode = asNode().appendNode('dependencies')
+                def dependenciesNode = asNode().appendNode('dependencies')
                 //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
-                configurations.compile.allDependencies.each {
+                configurations.implementation.allDependencies.each {
                     if (it.name != 'unspecified') {
                         def dependencyNode = dependenciesNode.appendNode('dependency')
                         dependencyNode.appendNode('groupId', it.group)
@@ -33,6 +33,7 @@ bintray {
     dryRun = false
     override = false
     publish = true
+    configurations = ['archives']
     pkg {
         repo = 'KKIAPAY-ANDROID-SDK' // Bintray repo name
         name = 'android-sdk' // library module name
