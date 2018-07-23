@@ -54,7 +54,7 @@ KkiaPay("<kkiapay-api-key>")
 #### JAVA
 ##### Initiate the API
 ```java
-KkiaPay manager = new KkiaPay("");
+KkiaPay manager = new KkiaPay("<your-api-key>");
 ```
 **Request a payment**
 ```java
