@@ -11,8 +11,8 @@ publishing {
 
             //The publication doesn't know about our dependencies, so we have to manually add them to the pom
             pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-                //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
+               //  def dependenciesNode = asNode().appendNode('dependencies')
+                //Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
                 configurations.implementation.allDependencies.each {
                     if (it.name != 'unspecified') {
                         def dependencyNode = dependenciesNode.appendNode('dependency')
@@ -33,13 +33,13 @@ bintray {
     dryRun = false
     override = false
     publish = true
-    configurations = ['archives']
     pkg {
         repo = 'KKIAPAY-ANDROID-SDK' // Bintray repo name
         name = 'android-sdk' // library module name
         userOrg = 'kkiapay' //  Bintray user name
         licenses = ['MIT']
         desc = 'Android SDK for kkiapay API'
+        websiteUrl = 'https://kkiapay.me'
         vcsUrl = 'https://github.com/kkiapay/android-sdk' // repo url
 
         version {
