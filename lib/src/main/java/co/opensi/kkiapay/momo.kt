@@ -142,10 +142,10 @@ private fun request_payement(paymentRequest:PaymentRequest ,cb: (STATUS, String,
             //server respond after transaction
                 val paymentStatus = Gson().fromJson<PaymentStatus>(it,PaymentStatus::class.java)
                 when(paymentStatus.isPaymentSucces){
-                    true  ->  runOnUiThread { cb(STATUS.SUCCESS,paymentStatus.account,paymentRequest.transactionId) }
+                    true  ->  runOnUiThread { cb(STATUS.SUCCESS,paymentStatus.account,paymentStatus.transactionId) }
                     false -> when(paymentStatus.failureCode) {
-                        IS_INSUFFICIENT_FUND -> runOnUiThread { cb(STATUS.INSUFFICIENT_FUND,paymentStatus.account,paymentRequest.transactionId)  }
-                        else -> runOnUiThread { cb(STATUS.FAILED,paymentStatus.account,paymentRequest.transactionId) }
+                        IS_INSUFFICIENT_FUND -> runOnUiThread { cb(STATUS.INSUFFICIENT_FUND,paymentStatus.account,paymentStatus.transactionId)  }
+                        else -> runOnUiThread { cb(STATUS.FAILED,paymentStatus.account,paymentStatus.transactionId) }
                     }
                 }
 
