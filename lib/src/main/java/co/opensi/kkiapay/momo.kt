@@ -123,10 +123,14 @@ private fun request_payement(paymentRequest:PaymentRequest ,cb: (STATUS, String,
                         when (result) {
                             is Result.Failure -> {
                                 val error = Gson().fromJson<Error>(String(response.data),Error::class.java)
-                                when(error.status) {
-                                    4001 -> cb(STATUS.INVALID_PHONE_NUMBER,paymentRequest.phoneNumber,paymentRequest.transactionId)
-                                    4003 -> cb(STATUS.INVALID_API_KEY,paymentRequest.phoneNumber,paymentRequest.transactionId)
-                                    else -> cb(STATUS.FAILED,paymentRequest.phoneNumber,paymentRequest.transactionId)
+                                if (error == null) {
+                                    cb(STATUS.FAILED,paymentRequest.phoneNumber,paymentRequest.transactionId)
+                                }else {
+                                    when(error.status) {
+                                        4001 -> cb(STATUS.INVALID_PHONE_NUMBER,paymentRequest.phoneNumber,paymentRequest.transactionId)
+                                        4003 -> cb(STATUS.INVALID_API_KEY,paymentRequest.phoneNumber,paymentRequest.transactionId)
+                                        else -> cb(STATUS.FAILED,paymentRequest.phoneNumber,paymentRequest.transactionId)
+                                    }
                                 }
                             }
 
