@@ -16,21 +16,22 @@ and create your account is free and without pain :sunglasses:.
 file inside `dependencies` section
 
 ```groovy
-implementation 'co.opensi.kkiapay:kkiapay:+'
+implementation 'co.opensi.kkiapay:kkiapay:<latestVersion>'
  ```
-
-Don't worry about changes, we will maintain backward compatibility of this sdk
 
 
 ## Usage
 
- Get your API Key on [kkiapay Dashboard at Developer section](https://kkiapay.me/#/developers) and initialize the Sdk in Application Class or Activity
+ Get your API Key on [kkiapay Dashboard at Developer section](https://kkiapay.me/#/developers) and initialize the Sdk in Application Class
 
 #### Kotlin
 You still use java ? :frowning:, jump to this [section](#java) :frowning:
 ##### Initiate the API
+In the onCreate method of your Application class
 ```kotlin
-KkiaPay("<kkiapay-api-key>")
+Kkiapay.init(applicationContext,
+            "<kkiapay-api-key>",
+            SdkConfig(themeColor = R.color.colorPrimary, imageResource = R.raw.armoiries))
 ```
 **Quick payment request**
 
@@ -63,16 +64,40 @@ To manage request status you should process like this
         //handle response
    }
 ```
+
+**Request payment via UI-SDK Kit**
+First, configure a listener to UI-KIT SDK: 
+```kotlin
+    Kkiapay.get()
+           .setListener{ status, transactionId  ->
+              Toast.makeText(activity, "Transaction: ${status.name} -> $transactionId", Toast.LENGTH_LONG).show()
+            }
+```
+
+Second, configure event handling from the UI-KIT SDK in your activity onActivityResult methode:
+```kotlin
+    Kkiapay.get().handleActivityResult(requestCode, resultCode, data)
+```
+
+Finally, launch your payment request via UI-KIT SDK:
+```kotlin
+    Kkiapay.get().requestPayment(this, "1","Paiement de services","Nom Prenom")
+```
+
 -------
 
 #### JAVA
 ##### Initiate the API
+In the onCreate method of your Application class
 ```java
-KkiaPay api = new KkiaPay("<your-api-key>");
+    Kkiapay.INSTANCE.init(this,
+                "<your-api-key>",
+                new SdkConfig(R.raw.armoiries, R.color.colorPrimary));
 ```
 **Request a payment**
 ```java
- api.from("22967434270")
+ MomoPay manager = Kkiapay.INSTANCE.get().getMomoPay();
+ manager.from("22967434270")
         .debit(1500, new KKiapayCallback() {
            @Override
            public void onResponse(@NotNull STATUS status,
@@ -111,6 +136,31 @@ KkiaPay api = new KkiaPay("<your-api-key>");
   });
 ```
 
+**Request payment via UI-SDK Kit**
+First, configure a listener to UI-KIT SDK: 
+```java
+    Kkiapay.INSTANCE.get().setListener(new Function2<STATUS, String, Unit>() {
+            @Override
+            public Unit invoke(STATUS status, String s) {
+                Toast.makeText(MA.this, "Transaction: ${status.name} -> $transactionId", Toast.LENGTH_LONG).show();
+                return null;
+            }
+        });
+```
+
+Second, configure event handling from the UI-KIT SDK in your activity onActivityResult methode:
+```java
+    Kkiapay.INSTANCE.get().handleActivityResult(requestCode, resultCode, data);
+```
+
+Finally, launch your payment request via UI-KIT SDK:
+```java
+    Kkiapay.INSTANCE.get().requestPayment(activity,
+                            "1",
+                            "Paiement de services",
+                            "Nom Prenom", "");
+```
+
 
 #### COMPLETE STATUS LIST
 
@@ -121,7 +171,6 @@ KkiaPay api = new KkiaPay("<your-api-key>");
 | INSUFFICIENT_FUND    |                |
 | INVALID_PHONE_NUMBER |                |
 | INVALID_API_KEY |                     |
-
 
 
 

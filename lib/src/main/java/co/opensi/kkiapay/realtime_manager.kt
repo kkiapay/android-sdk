@@ -46,21 +46,21 @@ fun subscribe(channel: String, event: String, on_connected: () -> Unit, on_event
     if (!initialized) init()
 
 
-    options.query = "apikey=${PUBLIC_API_KEY}&contact=${channel}"
+    options.query = "apikey=$PUBLIC_API_KEY&contact=${channel}"
 
     socket = IO.socket(END_POINT, options)
-    socket.on(event, {
-        Log.e(TAG, event+it[0].toString())
+    socket.on(event) {
+        Log.e(TAG, event + it[0].toString())
         on_event(it[0].toString())
-    }).on(Socket.EVENT_CONNECT, {
+    }.on(Socket.EVENT_CONNECT) {
         Log.e(TAG, "connected")
         on_connected()
-    }).on(Socket.EVENT_DISCONNECT, {
+    }.on(Socket.EVENT_DISCONNECT) {
         Log.e(TAG, "disconnected")
         socket.connect()
-    }).on("safety", {
+    }.on("safety") {
         Log.e(TAG, it[0].toString())
-    })
+    }
     socket.connect()
 
 }
@@ -81,7 +81,7 @@ fun claim_channel(cb: (String, String) -> Unit) {
                         val error = String(response.data)
                         when (response.statusCode) {
                             403 -> cb("", STATUS.INVALID_API_KEY.toString())
-                            else -> cb("", error.toString())
+                            else -> cb("", error)
                         }
                     }
 

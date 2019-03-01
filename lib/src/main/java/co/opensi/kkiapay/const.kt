@@ -5,24 +5,31 @@ package co.opensi.kkiapay
  * ALL THINGS IN THIS FILE IS PUBLIC DATA
  */
 
+internal const val END_POINT = "https://api.kkiapay.me"
 
-val END_POINT = "https://api.kkiapay.me"
+internal const val API_ENDPOINT = "$END_POINT/api/v1"
 
-val API_ENDPOINT = "$END_POINT/api/v1"
+internal const val API_KEY_HEADER_TAG = "x-api-key"
+internal const val CONTENT_TYPE = "Content-Type"
+internal const val JSON_APPLICATION = "application/json"
 
-val API_KEY_HEADER_TAG = "x-api-key"
-val CONTENT_TYPE = "Content-Type"
-val JSON_APPLICATION = "application/json"
+internal const val NEW_PAYMENT_ENDPOINT = "payments/request"
 
-val NEW_PAYMENT_ENDPOINT = "payments/request"
+internal const val CLAIM_NEW_CHANNEL_ENDPOINT="utils/claimchannel"
 
-val CLAIM_NEW_CHANNEL_ENDPOINT="utils/claimchannel"
-
-val IS_INSUFFICIENT_FUND = "insufficent_fund"
+internal const val IS_INSUFFICIENT_FUND = "insufficent_fund"
 
 //legacy
-var PUBLIC_API_KEY = ""
+internal var PUBLIC_API_KEY = ""
 
 enum class STATUS {
-    SUCCESS,FAILED,INSUFFICIENT_FUND ,PENDING,INVALID_PHONE_NUMBER, INVALID_API_KEY
+    SUCCESS,
+    FAILED,
+    INSUFFICIENT_FUND,
+    PENDING,
+    INVALID_PHONE_NUMBER,
+    INVALID_API_KEY,
+    TRANSACTION_NOT_FOUND,
+    INVALID_TRANSACTION,
+    UNKNOWN
 }

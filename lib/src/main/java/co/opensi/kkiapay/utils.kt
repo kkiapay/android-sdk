@@ -4,7 +4,7 @@ package co.opensi.kkiapay
  * Created by geecko on 5/17/18.
  */
 
-infix inline fun <reified T : Any> T.merge ( target: Any) {
+inline infix fun <reified T : Any> T.merge ( target: Any) {
         TODO( "return this == (target + this)")
 }
 
