@@ -8,19 +8,16 @@ import com.github.kittinunf.result.Result
 import com.google.gson.Gson
 
 
-
-
 /**
  * @author Shadai ALI ( shadai.ali@opensi.co )
  * created  at 14/05/2018
  */
 
-val MTN_MOMO_PAYMENTS_BACK =  "payment_back"
+const val MTN_MOMO_PAYMENTS_BACK =  "payment_back"
 
-private var instance: KkiaPay? = null
+private var instance: MomoPay? = null
 
-class KkiaPay(api_key: String) {
-
+class MomoPay internal constructor(api_key: String) {
 
     init {
         init(api_key)
@@ -31,16 +28,15 @@ class KkiaPay(api_key: String) {
      */
      private var sdkIsInitailized: Boolean = false
      private var paymentRequest: PaymentRequest? = null
-     private val pending_transactions = mutableMapOf<String,Any>()
 
 
     /**
      * Initialize SDK with API key.
      * This function didn't check your API keys but keep it for future requests
-     *  @param String  developer prod / test API keys check https://kkiapay.me
-     *  @return KkiaPay
+     *  @param api_key  developer prod / test API keys check https://kkiapay.me
+     *  @return MomoPay
      */
-     private fun init(api_key: String): KkiaPay {
+     private fun init(api_key: String): MomoPay {
 
         PUBLIC_API_KEY = api_key
 
@@ -59,10 +55,10 @@ class KkiaPay(api_key: String) {
 
     /**
      * Setup clients informations ...
-     * @param Subscriber
-     * @return KkiaPay
+     * @param subscriber
+     * @return MomoPay
      */
-    fun from(subscriber: Subscriber): KkiaPay {
+    fun from(subscriber: Subscriber): MomoPay {
         if(!sdkIsInitailized) throw kkiaPayNotInitializedException("")
         paymentRequest = PaymentRequest(subscriber.firstName, subscriber.lastName, subscriber.phoneNumber)
         return this
@@ -71,10 +67,10 @@ class KkiaPay(api_key: String) {
 
     /**
      * Setup clients informations ...
-     * @param String
-     * @return KkiaPay
+     * @param phoneNumber
+     * @return MomoPay
      */
-    fun from(phoneNumber: String): KkiaPay {
+    fun from(phoneNumber: String): MomoPay {
         if(!sdkIsInitailized) throw kkiaPayNotInitializedException("")
         paymentRequest = PaymentRequest(phoneNumber = phoneNumber)
         return this
@@ -100,7 +96,7 @@ class KkiaPay(api_key: String) {
      * utility for jvm compatibility
      */
     fun debit(amount: Int, cb: KKiapayCallback ){
-        _take(amount,{ status: STATUS, phone: String, transactionId: String -> cb.onResponse(status,phone, transactionId) })
+        _take(amount) { status: STATUS, phone: String, transactionId: String -> cb.onResponse(status,phone, transactionId) }
     }
 }
 
@@ -122,11 +118,11 @@ private fun request_payement(paymentRequest:PaymentRequest ,cb: (STATUS, String,
 
                         when (result) {
                             is Result.Failure -> {
-                                val error = Gson().fromJson<Error>(String(response.data),Error::class.java)
-                                if (error == null) {
+                                val theError = Gson().fromJson<Error>(String(response.data),Error::class.java)
+                                if (theError == null) {
                                     cb(STATUS.FAILED,paymentRequest.phoneNumber,paymentRequest.transactionId)
                                 }else {
-                                    when(error.status) {
+                                    when(theError.status) {
                                         4001 -> cb(STATUS.INVALID_PHONE_NUMBER,paymentRequest.phoneNumber,paymentRequest.transactionId)
                                         4003 -> cb(STATUS.INVALID_API_KEY,paymentRequest.phoneNumber,paymentRequest.transactionId)
                                         else -> cb(STATUS.FAILED,paymentRequest.phoneNumber,paymentRequest.transactionId)
@@ -159,7 +155,7 @@ private fun request_payement(paymentRequest:PaymentRequest ,cb: (STATUS, String,
 
 }
 
-fun runOnUiThread(cb: () -> Unit){
+internal fun runOnUiThread(cb: () -> Unit){
     Handler(Looper.getMainLooper()).post { cb() }
 }
 
@@ -175,12 +171,15 @@ infix fun String.debit(amount : Int): ((STATUS, String, String) -> Unit) -> Unit
 
 
 
-private data class Transaction (val transactionId:String, val internalTransactionId: String, val status: String)
+internal data class Transaction (val transactionId:String,
+                                val internalTransactionId: String,
+                                val status: String)
 
 private data class PaymentStatus(val transactionId:String, val status: String, val isPaymentSucces: Boolean,
                                  val failureCode: String, val failureMessage: String, val account: String)
 
-data class Error(val status: Int,val reason: String)
+internal data class Error(val status: Int,
+                 val reason: String)
 
 private data class PaymentRequest(val firstname: String ="", val lastname: String="", val phoneNumber: String,
                                   var amount: Int = 0, var transactionId: String = "", var contact: String = "") {
@@ -201,6 +200,5 @@ data class Subscriber(val phoneNumber: String, val firstName: String,val lastNam
     fun build() = Subscriber(phoneNumber, firstName, lastName)
 
 }
-
 
 fun from(builder: SubscriberBuilder.() -> Unit) : Subscriber = SubscriberBuilder().apply(builder).build()
