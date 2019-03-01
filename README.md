@@ -175,7 +175,6 @@ Finally, launch your payment request via UI-KIT SDK:
 
 
 
-
 #### Testimony :heart:
 
 [GoMedical](https://play.google.com/store/apps/details?id=co.opensi.medical)
