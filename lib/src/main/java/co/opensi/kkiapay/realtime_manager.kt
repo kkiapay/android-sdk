@@ -7,7 +7,8 @@ import io.socket.client.IO
 import io.socket.client.Socket
 
 /**
- * Created by geecko on 5/23/18.
+ * @author Shadai ALI ( shadai.ali@opensi.co )
+ * created  at 5/23/18.
  */
 
 

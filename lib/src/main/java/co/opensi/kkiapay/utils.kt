@@ -1,7 +1,8 @@
 package co.opensi.kkiapay
 
 /**
- * Created by geecko on 5/17/18.
+ * @author Shadai ALI ( shadai.ali@opensi.co )
+ * created  at 5/17/18.
  */
 
 inline infix fun <reified T : Any> T.merge ( target: Any) {
