@@ -16,8 +16,16 @@ import co.opensi.kkiapay.STATUS
 import co.opensi.kkiapay.Transaction
 import co.opensi.kkiapay.uikit.Me.Companion.KKIAPAY_REQUEST_CODE
 import co.opensi.kkiapay.uikit.Me.Companion.KKIAPAY_URL
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.FileDataPart
+import com.github.kittinunf.fuel.core.HeaderValues
+import com.github.kittinunf.fuel.core.Method
+import com.github.kittinunf.fuel.core.Parameters
+import com.github.kittinunf.fuel.core.requests.upload
+import com.github.kittinunf.fuel.util.FuelRouting
 import com.google.gson.Gson
 import org.apache.commons.codec.binary.Base64
+import org.json.JSONObject
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -69,7 +77,7 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
     val momoPay: MomoPay
 
     init {
-        KKiapayApi.apiKei = apiKey
+        KKiapayApi.apiKey = apiKey
         sdkConfig.run {
             convertColorToString(context)
             convertImageResToImageUrl(context)
@@ -242,5 +250,72 @@ internal data class User(val amount: String = "",
         val preConvertion = this.copy(theme = sdkConfig.color, url = sdkConfig.imageUrl)
         val userJson = Gson().toJson(preConvertion).toString()
         return String(Base64.encodeBase64(userJson.toByteArray()))
+    }
+}
+
+
+
+
+private sealed class KKiapayApi : FuelRouting {
+    override val basePath: String
+        get() = "https://api.kkiapay.me"
+
+    override val headers: Map<String, HeaderValues>?
+        get() = mapOf("x-api-key" to listOf(apiKey))
+
+    override val method: Method
+        get() = Method.POST
+
+    override val body: String?
+        get() = null
+
+    override val bytes: ByteArray?
+        get() = null
+
+    override val params: Parameters?
+        get() = emptyList()
+
+    private class UploadFile(private val classification: String = "android_client_store_icon"): KKiapayApi(){
+        override val path: String
+            get() = "/utils/upload"
+
+        override val params: List<Pair<String, Any?>>?
+            get() = listOf("type" to classification)
+    }
+
+    private class CheckTansactionStatus(private val transactionId: String): KKiapayApi() {
+        override val path: String
+            get() = "/api/v1/transactions/status"
+
+        override val headers: Map<String, HeaderValues>?
+            get() = super.headers?.plus("Content-Type" to listOf("application/json"))
+
+        override val body: String?
+            get() = JSONObject().putOpt("transactionId", transactionId).toString()
+    }
+
+    private class GetUploadedFile(private val fileKey: String): KKiapayApi() {
+        override val path: String
+            get() = "/utils/file/$fileKey"
+
+        override val method: Method
+            get() = Method.GET
+    }
+
+    companion object {
+        internal lateinit var apiKey: String
+
+        internal fun uploadFile(file: File?) =
+                file?.run { Fuel.request(UploadFile())
+                        .upload()
+                        .add { FileDataPart(this, name = "file") } }
+
+        internal fun checkTransactionStatus(transactionId: String) =
+                Fuel.request(CheckTansactionStatus(transactionId))
+
+        internal fun getUploadedFile(fileKey: String?) =
+                fileKey?.run{
+                    Fuel.request(GetUploadedFile(fileKey))
+                }
     }
 }
