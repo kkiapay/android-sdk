@@ -15,7 +15,7 @@ public class TheApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Kkiapay.INSTANCE.init(this,
+        Kkiapay.init(this,
                 "<api-key>",
                 new SdkConfig(R.raw.armoiries, R.color.colorPrimary));
     }

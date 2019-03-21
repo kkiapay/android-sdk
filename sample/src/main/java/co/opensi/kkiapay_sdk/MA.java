@@ -31,14 +31,14 @@ public class MA extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        manager = Kkiapay.INSTANCE.get().getMomoPay();
+        manager = Kkiapay.get().getMomoPay();
         subscriber =  new Subscriber("22997000000","FrstName","LastName");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Kkiapay.INSTANCE.get().setListener(new Function2<STATUS, String, Unit>() {
+        Kkiapay.get().setListener(new Function2<STATUS, String, Unit>() {
             @Override
             public Unit invoke(STATUS status, String s) {
                 Toast.makeText(MA.this, "Transaction: ${status.name} -> $transactionId", Toast.LENGTH_LONG).show();
@@ -68,7 +68,7 @@ public class MA extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Lancement de Kkiapay UI-kit paiement
-                Kkiapay.INSTANCE.get().requestPayment(MA.this,
+                Kkiapay.get().requestPayment(MA.this,
                         "1",
                         "Paiement de services",
                         "Nom Prenom", "");
@@ -79,6 +79,6 @@ public class MA extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Kkiapay.INSTANCE.get().handleActivityResult(requestCode, resultCode, data);
+        Kkiapay.get().handleActivityResult(requestCode, resultCode, data);
     }
 }

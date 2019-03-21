@@ -90,13 +90,13 @@ Finally, launch your payment request via UI-KIT SDK:
 ##### Initiate the API
 In the onCreate method of your Application class
 ```java
-    Kkiapay.INSTANCE.init(this,
+    Kkiapay.init(this,
                 "<your-api-key>",
                 new SdkConfig(R.raw.armoiries, R.color.colorPrimary));
 ```
 **Request a payment**
 ```java
- MomoPay manager = Kkiapay.INSTANCE.get().getMomoPay();
+ MomoPay manager = Kkiapay.get().getMomoPay();
  manager.from("22967434270")
         .debit(1500, new KKiapayCallback() {
            @Override
@@ -139,7 +139,7 @@ In the onCreate method of your Application class
 **Request payment via UI-SDK Kit**
 First, configure a listener to UI-KIT SDK: 
 ```java
-    Kkiapay.INSTANCE.get().setListener(new Function2<STATUS, String, Unit>() {
+    Kkiapay.get().setListener(new Function2<STATUS, String, Unit>() {
             @Override
             public Unit invoke(STATUS status, String s) {
                 Toast.makeText(MA.this, "Transaction: ${status.name} -> $transactionId", Toast.LENGTH_LONG).show();
@@ -150,12 +150,12 @@ First, configure a listener to UI-KIT SDK:
 
 Second, configure event handling from the UI-KIT SDK in your activity onActivityResult methode:
 ```java
-    Kkiapay.INSTANCE.get().handleActivityResult(requestCode, resultCode, data);
+    Kkiapay.get().handleActivityResult(requestCode, resultCode, data);
 ```
 
 Finally, launch your payment request via UI-KIT SDK:
 ```java
-    Kkiapay.INSTANCE.get().requestPayment(activity,
+    Kkiapay.get().requestPayment(activity,
                             "1",
                             "Paiement de services",
                             "Nom Prenom", "");
@@ -169,8 +169,11 @@ Finally, launch your payment request via UI-KIT SDK:
 |  SUCCESS    |                         |
 | FAILED      |                         |
 | INSUFFICIENT_FUND    |                |
+| PENDING     |                |
 | INVALID_PHONE_NUMBER |                |
 | INVALID_API_KEY |                     |
+| TRANSACTION_NOT_FOUND |                     |
+| INVALID_TRANSACTION |                     |
 
 
 

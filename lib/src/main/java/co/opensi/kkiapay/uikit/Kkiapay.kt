@@ -47,6 +47,8 @@ object Kkiapay{
      *  @param context  Application Context
      *  @param sdkConfig  SDK configurations. It is optional
      */
+    @JvmOverloads
+    @JvmStatic
     fun init(context: Context,
              apiKey:String,
              sdkConfig: SdkConfig = SdkConfig()) {
@@ -58,6 +60,7 @@ object Kkiapay{
      * @return [Me] Instance of Kkiapay
      * @exception [IllegalAccessException] If the SDK was not initialized before use
      */
+    @JvmStatic
     fun get(): Me {
         if (!Kkiapay::me.isInitialized)
             throw IllegalAccessException("You must initialise Kkiapay SDK in the onCreate methode of your App's" +
@@ -94,6 +97,7 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
      * @param phone The customer's phone number
      * @exception [IllegalAccessException] If a listener was not configured on the UI-SDK
      */
+    @JvmOverloads
     fun requestPayment(activity: AppCompatActivity,
                        amount: String,
                        reason: String,
