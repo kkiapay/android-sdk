@@ -5,10 +5,14 @@ import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.transition.Visibility
 import android.util.Log
+import android.view.View
 import android.webkit.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import co.opensi.kkiapay.R
 import co.opensi.kkiapay.uikit.Me.Companion.KKIAPAY_TRANSACTION_ID
@@ -24,6 +28,13 @@ internal class CustomTabActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.custom_tab_activity)
+
+        loading_view.playAnimation()
+
+        web_view.setBackgroundColor(0x00000000);
+        web_view.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+
+        web_view.settings
 
         intent?.run {
             val url = getStringExtra(EXTRA_URL)
@@ -59,7 +70,10 @@ internal class CustomTabActivity: AppCompatActivity() {
 
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
+                        loading_view.visibility = View.GONE
+                        loading_view.cancelAnimation()
                         Log.i("CustomTabActivity", "onPageFinished")
+                        Log.e("CustomTabActivity", "onPageFinished " +  url)
                     }
 
                     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
