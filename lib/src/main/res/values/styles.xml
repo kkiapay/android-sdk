@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="TransparentCompat" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+    </style>
+
+    <style name="progressBarBlue" parent="@style/Theme.AppCompat">
+        <item name="colorAccent">@color/pink</item>
     </style>
 </resources>

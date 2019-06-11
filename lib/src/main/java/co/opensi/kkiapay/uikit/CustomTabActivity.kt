@@ -4,16 +4,23 @@ import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.LayerDrawable
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.transition.Visibility
 import android.util.Log
 import android.view.View
 import android.webkit.*
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import co.opensi.kkiapay.R
 import co.opensi.kkiapay.uikit.Me.Companion.KKIAPAY_TRANSACTION_ID
 import kotlinx.android.synthetic.main.custom_tab_activity.*
@@ -23,21 +30,20 @@ import kotlinx.android.synthetic.main.custom_tab_activity.*
  * created  at 01/03/2019
  */
 
-internal class CustomTabActivity: AppCompatActivity() {
+internal class CustomTabActivity: Activity() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.custom_tab_activity)
 
-        loading_view.playAnimation()
+        web_view.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
+        web_view.setBackgroundColor(0x3EFFFFFF.toInt())
 
-        web_view.setBackgroundColor(0x00000000);
-        web_view.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
-
-        web_view.settings
 
         intent?.run {
             val url = getStringExtra(EXTRA_URL)
+            var theme = getIntExtra(EXTRA_THEME,R.color.pink )
+            tintIndeterminateProgress(progressbar, ContextCompat.getColor(applicationContext,theme))
             web_view.run {
                 settings.run {
                     javaScriptEnabled = true
@@ -51,6 +57,11 @@ internal class CustomTabActivity: AppCompatActivity() {
                     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                         shouldOverrideUrlLoading(url ?: "")
                         return super.shouldOverrideUrlLoading(view, url)
+                    }
+
+                    override fun onLoadResource(view: WebView?, url: String?) {
+                        return super.onLoadResource(view, url)
+
                     }
 
                     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -70,10 +81,15 @@ internal class CustomTabActivity: AppCompatActivity() {
 
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
-                        loading_view.visibility = View.GONE
-                        loading_view.cancelAnimation()
                         Log.i("CustomTabActivity", "onPageFinished")
-                        Log.e("CustomTabActivity", "onPageFinished " +  url)
+                        val timer = object: CountDownTimer(990,990) {
+                            override fun onTick(millisUntilFinished: Long) {}
+
+                            override fun onFinish() {
+                                progressbar.visibility = View.GONE
+                            }
+                        }
+                        timer.start()
                     }
 
                     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -109,5 +125,22 @@ internal class CustomTabActivity: AppCompatActivity() {
 
     companion object {
         internal const val EXTRA_URL = "me.kkiapay.uikit.EXTRA_URL"
+        internal const val EXTRA_THEME = "me.kkiapay.uikit.EXTRA_THEME"
+
+    }
+
+    fun tintIndeterminateProgress(progress: ProgressBar, @ColorInt color: Int ){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            progress.indeterminateTintList = ColorStateList.valueOf(color)
+        } else {
+            (progress.indeterminateDrawable as? LayerDrawable)?.apply {
+                if (numberOfLayers >= 2) {
+                    setId(0, android.R.id.progress)
+                    setId(1, android.R.id.secondaryProgress)
+                    val progressDrawable = findDrawableByLayerId(android.R.id.progress).mutate()
+                    progressDrawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+                }
+            }
+        }
     }
 }

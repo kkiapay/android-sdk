@@ -189,7 +189,7 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
  * Possibility to configure the color [themeColor]
  * and the shop logo [imageResource]
  */
-data class SdkConfig(@RawRes private val imageResource: Int = -1, @ColorRes private val themeColor: Int = -1){
+data class SdkConfig(@RawRes private val imageResource: Int = -1, @ColorRes internal val themeColor: Int = -1){
     internal var imageUrl: String = ""
     internal var color: String = ""
 
@@ -237,6 +237,8 @@ internal class RequestPaymentAction(private val user: User) {
                 Intent(activity, CustomTabActivity::class.java).apply {
                     putExtra(CustomTabActivity.EXTRA_URL,
                             "$KKIAPAY_URL/?=${user.toBase64(sdkConfig)}")
+                    putExtra(CustomTabActivity.EXTRA_THEME,
+                            sdkConfig.themeColor)
                 }, KKIAPAY_REQUEST_CODE)
     }
 }
