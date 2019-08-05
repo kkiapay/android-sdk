@@ -21,6 +21,10 @@ implementation 'co.opensi.kkiapay:kkiapay:<latestVersion>'
 
 
 ## Usage
+<aside class="warning">
+ Please refer to [KkiaPay Official Docs](https://docs.kkiapay.me/v1/plugin-et-sdk/sdk-android) for updated docs 
+</aside> 
+
 
  Get your API Key on [kkiapay Dashboard at Developer section](https://kkiapay.me/#/developers) and initialize the Sdk in Application Class
 
@@ -31,7 +35,8 @@ In the onCreate method of your Application class
 ```kotlin
 Kkiapay.init(applicationContext,
             "<kkiapay-api-key>",
-            SdkConfig(themeColor = R.color.colorPrimary, imageResource = R.raw.armoiries))
+            SdkConfig(themeColor = R.color.colorPrimary, imageResource = R.raw.armoiries, 
+            /* set this to false in prod */ enableSandbox = true))
 ```
 **Quick payment request**
 
