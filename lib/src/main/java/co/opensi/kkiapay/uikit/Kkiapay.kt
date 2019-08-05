@@ -189,7 +189,7 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
  * Possibility to configure the color [themeColor]
  * and the shop logo [imageResource]
  */
-data class SdkConfig(@RawRes private val imageResource: Int = -1, @ColorRes internal val themeColor: Int = -1){
+data class SdkConfig(@RawRes private val imageResource: Int = -1, @ColorRes internal val themeColor: Int = -1,val enableSandbox: Boolean = false){
     internal var imageUrl: String = ""
     internal var color: String = ""
 
@@ -251,9 +251,11 @@ internal data class User(val amount: String = "",
                          val phone: String = "",
                          val sdk: String = "android",
                          val theme: String = "",
-                         val url: String = "") {
+                         val url: String = "",
+                         val sandbox: Boolean = false
+) {
     fun toBase64(sdkConfig: SdkConfig) : String{
-        val preConvertion = this.copy(theme = sdkConfig.color, url = sdkConfig.imageUrl)
+        val preConvertion = this.copy(theme = sdkConfig.color, url = sdkConfig.imageUrl, sandbox = sdkConfig.enableSandbox)
         val userJson = Gson().toJson(preConvertion).toString()
         return String(Base64.encodeBase64(userJson.toByteArray()))
     }

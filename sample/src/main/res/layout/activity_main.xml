@@ -7,22 +7,13 @@
     tools:context="co.opensi.kkiapay_sdk.MainActivity">
 
     <Button
-        android:id="@+id/momo_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Momo Pay!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/test_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="UI-Kit!!!"
+        android:layout_marginTop="296dp"
+        android:text="@string/ui_kit"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,33 +20,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Kkiapay.get()
-                .setListener{ status, transactionId  ->
-                    Toast.makeText(this@MainActivity, "Transaction: ${status.name} -> $transactionId", Toast.LENGTH_LONG).show()
-                }
+
+        // Setup listener for payment status
+        Kkiapay.get().setListener { status, transactionId ->
+
+            //The following code will be run when user will end the payment
+            Toast.makeText(this@MainActivity, "Transaction: ${status.name} -> $transactionId", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        momo_test.setOnClickListener {
-            //Débit de 1 a l'utilisateur dont le numero de téléphone est 67 43 42 70
-            ("22997000000" debit  1) {
-                status, _, _ -> when (status) {
-                STATUS.SUCCESS -> displayToUser("Bravooo")
-                STATUS.INSUFFICIENT_FUND -> displayToUser("tu n'as pas le djeh bro")
-                else-> displayToUser("pardon faut try encore")
-            }
-            }
-        }
 
         test_button.setOnClickListener {
-            //Lancement de Kkiapay UI-kit paiement
-            Kkiapay.get().requestPayment(this, "1","Paiement de services","Nom Prenom")
+            // start the payment process
+            // This will display a kkiapay payment dialog to user
+            Kkiapay.get().requestPayment(this, "1", "Payment of awesome service", "Johna DOE")
         }
-    }
-
-    private fun displayToUser( a: String){
-        Toast.makeText(this,a,Toast.LENGTH_SHORT).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

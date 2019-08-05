@@ -10,8 +10,10 @@ class MyApp : Application() {
 
         //Initialisation de l'API
         Kkiapay.init(applicationContext,
-                "<api-key>",
+                "<PUBLIC-API-KEY>",
             SdkConfig(themeColor = R.color.colorPrimary,
-                imageResource = R.raw.armoiries))
+                imageResource = R.raw.armoiries,
+                    /* set enableSandbox = false in case you are using live API Keys */
+                    enableSandbox = false))
     }
 }
