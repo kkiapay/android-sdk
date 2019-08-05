@@ -21,12 +21,10 @@ implementation 'co.opensi.kkiapay:kkiapay:<latestVersion>'
 
 
 ## Usage
-<aside class="warning">
- Please refer to [KkiaPay Official Docs](https://docs.kkiapay.me/v1/plugin-et-sdk/sdk-android) for updated docs 
-</aside> 
+ **Please refer to** [KkiaPay Official Docs](https://docs.kkiapay.me/v1/plugin-et-sdk/sdk-android) **for updated docs** 
 
 
- Get your API Key on [kkiapay Dashboard at Developer section](https://kkiapay.me/#/developers) and initialize the Sdk in Application Class
+Get your API Key on [kkiapay Dashboard at Developer section](https://kkiapay.me/#/developers) and initialize the Sdk in Application Class
 
 #### Kotlin
 You still use java ? :frowning:, jump to this [section](#java) :frowning:
