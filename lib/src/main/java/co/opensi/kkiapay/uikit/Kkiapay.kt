@@ -1,7 +1,6 @@
 package co.opensi.kkiapay.uikit
 
 import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -190,7 +189,7 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
  * Possibility to configure the color [themeColor]
  * and the shop logo [imageResource]
  */
-data class SdkConfig(@RawRes private val imageResource: Int = -1, @ColorRes internal val themeColor: Int = -1,val enableSandbox: Boolean = false){
+data class SdkConfig(@RawRes private val imageResource: Int = -1, @ColorRes internal val themeColor: Int = -1, val enableSandbox: Boolean = false){
     internal var imageUrl: String = ""
     internal var color: String = ""
 
@@ -237,7 +236,7 @@ internal class RequestPaymentAction(private val user: User) {
         activity.startActivityForResult(
                 Intent(activity, CustomTabActivity::class.java).apply {
                     putExtra(CustomTabActivity.EXTRA_URL,
-                            "$KKIAPAY_URL/?=${user.toBase64(sdkConfig)}")
+                            "$KKIAPAY_URL/?=${user.toBase64(activity.applicationContext, sdkConfig)}")
                     putExtra(CustomTabActivity.EXTRA_THEME,
                             sdkConfig.themeColor)
                 }, KKIAPAY_REQUEST_CODE)
@@ -253,10 +252,16 @@ internal data class User(val amount: String = "",
                          val sdk: String = "android",
                          val theme: String = "",
                          val url: String = "",
-                         val sandbox: Boolean = false
+                         val sandbox: Boolean = false,
+                         val host: String? = ""
 ) {
-    fun toBase64(sdkConfig: SdkConfig) : String{
-        val preConvertion = this.copy(theme = sdkConfig.color, url = sdkConfig.imageUrl, sandbox = sdkConfig.enableSandbox)
+    fun toBase64(context: Context, sdkConfig: SdkConfig) : String{
+        val preConvertion = this.copy(
+                theme = sdkConfig.color,
+                url = sdkConfig.imageUrl,
+                sandbox = sdkConfig.enableSandbox,
+                host = context.applicationContext.packageName
+        )
         val userJson = Gson().toJson(preConvertion).toString()
         return String(Base64.encodeBase64(userJson.toByteArray()))
     }

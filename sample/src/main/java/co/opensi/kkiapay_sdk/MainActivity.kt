@@ -1,11 +1,9 @@
 package co.opensi.kkiapay_sdk
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import co.opensi.kkiapay.STATUS
-import co.opensi.kkiapay.debit
+import androidx.appcompat.app.AppCompatActivity
 import co.opensi.kkiapay.uikit.Kkiapay
 import kotlinx.android.synthetic.main.activity_main.*
 
