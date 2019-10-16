@@ -95,6 +95,8 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
      * @param reason Payment description
      * @param name The name of the client
      * @param phone The customer's phone number
+     * @param sandbox Make request on sandbox
+     * @param data The callback redirect data
      * @exception [IllegalAccessException] If a listener was not configured on the UI-SDK
      */
     @JvmOverloads
@@ -102,11 +104,15 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
                        amount: String,
                        reason: String,
                        name: String,
-                       phone: String = ""){
+                       phone: String = "",
+                       callback: String = "",
+                       data: String = "",
+                       sandbox: Boolean = false
+                       ){
         sdkListener ?: throw IllegalAccessException("Sdk Listener is null, you must setup one before the call of" +
                 " \"requestPayment\" methode")
 
-        val user = User(amount, reason, name, apiKey, KKIAPAY_REDIRECT_URL, phone = phone)
+        val user = User(amount, reason, name, apiKey, callback, phone, sandbox = sandbox, data = data)
         requestPaymentAction = RequestPaymentAction(user)
         requestPaymentAction?.invoke(activity, sdkConfig)
     }
@@ -253,13 +259,13 @@ internal data class User(val amount: String = "",
                          val theme: String = "",
                          val url: String = "",
                          val sandbox: Boolean = false,
-                         val host: String? = ""
+                         val host: String? = "",
+                         val data: String = ""
 ) {
     fun toBase64(context: Context, sdkConfig: SdkConfig) : String{
         val preConvertion = this.copy(
                 theme = sdkConfig.color,
                 url = sdkConfig.imageUrl,
-                sandbox = sdkConfig.enableSandbox,
                 host = context.applicationContext.packageName
         )
         val userJson = Gson().toJson(preConvertion).toString()
