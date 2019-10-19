@@ -82,6 +82,7 @@ class MomoPay internal constructor(api_key: String) {
      *  [amount]  String -- amount to debit
      *  [cb]
      */
+    @Deprecated("Use requestPayment instead")
     private fun _take(amount: Int,cb : (STATUS,String,String) -> Unit) {
 
         paymentRequest?.let {
@@ -104,6 +105,7 @@ class MomoPay internal constructor(api_key: String) {
  * @hide
  * Internal function
  */
+@Deprecated("Use requestPayment instead")
 private fun request_payement(paymentRequest:PaymentRequest ,cb: (STATUS, String, String) -> Unit) {
 
     claim_channel { channel, error ->
@@ -160,7 +162,7 @@ internal fun runOnUiThread(cb: () -> Unit){
 }
 
 
-
+@Deprecated("Use requestPayment instead")
 infix fun String.debit(amount : Int): ((STATUS, String, String) -> Unit) -> Unit {
 
     return {
