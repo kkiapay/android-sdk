@@ -14,8 +14,10 @@ import co.opensi.kkiapay.Error
 import co.opensi.kkiapay.MomoPay
 import co.opensi.kkiapay.STATUS
 import co.opensi.kkiapay.Transaction
+import co.opensi.kkiapay.uikit.KKiapayApi.Companion.checkTransactionStatus
 import co.opensi.kkiapay.uikit.Me.Companion.KKIAPAY_REQUEST_CODE
 import co.opensi.kkiapay.uikit.Me.Companion.KKIAPAY_URL
+import co.opensi.kkiapay.uikit.SandBoxKKiapayApi.Companion.sandboxCheckTransactionStatus
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FileDataPart
 import com.github.kittinunf.fuel.core.HeaderValues
@@ -143,7 +145,8 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
                 if (hasExtra(KKIAPAY_TRANSACTION_ID)){
                     val transactionId = getStringExtra(KKIAPAY_TRANSACTION_ID)
                     transactionId?.let {
-                        KKiapayApi.checkTransactionStatus(it)
+                        (if (sdkConfig.enableSandbox) ::sandboxCheckTransactionStatus
+                        else ::checkTransactionStatus).invoke(it)
                                 .responseString { _, _, result ->
                                     result.fold({ resutlString ->
                                         val transaction = Gson().fromJson<Transaction>(resutlString, Transaction::class.java)
@@ -274,7 +277,42 @@ internal data class User(val amount: String = "",
 }
 
 
+private sealed class SandBoxKKiapayApi : FuelRouting {
+    override val basePath: String
+        get() = "https://api-sandbox.kkiapay.me"
 
+    override val headers: Map<String, HeaderValues>?
+        get() = mapOf("x-api-key" to listOf(KKiapayApi.apiKey))
+
+    override val method: Method
+        get() = Method.POST
+
+    override val body: String?
+        get() = null
+
+    override val bytes: ByteArray?
+        get() = null
+
+    override val params: Parameters?
+        get() = emptyList()
+
+
+    private class SandBoxCheckTansactionStatus(private val transactionId: String): SandBoxKKiapayApi() {
+        override val path: String
+            get() = "/api/v1/transactions/status"
+
+        override val headers: Map<String, HeaderValues>?
+            get() = super.headers?.plus("Content-Type" to listOf("application/json"))
+
+        override val body: String?
+            get() = JSONObject().putOpt("transactionId", transactionId).toString()
+    }
+
+    companion object {
+        internal fun sandboxCheckTransactionStatus(transactionId: String) =
+                Fuel.request(SandBoxCheckTansactionStatus(transactionId))
+    }
+}
 
 private sealed class KKiapayApi : FuelRouting {
     override val basePath: String
