@@ -178,8 +178,7 @@ internal data class Transaction (val transactionId:String,
 private data class PaymentStatus(val transactionId:String, val status: String, val isPaymentSucces: Boolean,
                                  val failureCode: String, val failureMessage: String, val account: String)
 
-internal data class Error(val status: Int,
-                 val reason: String)
+internal data class Error(val status: Int, val reason: String)
 
 private data class PaymentRequest(val firstname: String ="", val lastname: String="", val phoneNumber: String,
                                   var amount: Int = 0, var transactionId: String = "", var contact: String = "") {
