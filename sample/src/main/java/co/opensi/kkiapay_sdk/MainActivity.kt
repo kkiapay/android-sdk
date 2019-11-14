@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         test_button.setOnClickListener {
             // start the payment process
             // This will display a kkiapay payment dialog to user
-            Kkiapay.get().requestPayment(this, "1", "Payment of awesome service", "Johna DOE")
+            Kkiapay.get().requestPayment(this, "1", "Payment of awesome service", "Johna DOE", sandbox = false)
         }
     }
 

@@ -107,13 +107,15 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
                        reason: String,
                        name: String,
                        phone: String = "",
-                       callback: String = "",
+                       callback: String = KKIAPAY_REDIRECT_URL,
                        data: String = "",
-                       sandbox: Boolean = false
+                       sandbox: Boolean = sdkConfig.enableSandbox
                        ){
         sdkListener ?: throw IllegalAccessException("Sdk Listener is null, you must setup one before the call of" +
                 " \"requestPayment\" methode")
 
+        sdkConfig.enableSandbox = sandbox
+        KKIAPAY_REDIRECT_URL = callback
         val user = User(amount, reason, name, apiKey, callback, phone, sandbox = sandbox, data = data)
         requestPaymentAction = RequestPaymentAction(user)
         requestPaymentAction?.invoke(activity, sdkConfig)
@@ -187,7 +189,7 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
 
     companion object {
         internal const val KKIAPAY_URL = "https://widget.kkiapay.me"
-        internal const val KKIAPAY_REDIRECT_URL = "http://redirect.kkiapay.me"
+        internal var KKIAPAY_REDIRECT_URL = "http://redirect.kkiapay.me"
         const val KKIAPAY_REQUEST_CODE = 0xABC
         internal const val KKIAPAY_TRANSACTION_ID = "me.kkiapay.uikit.KKIAPAY_TRANSACTION_ID"
     }
@@ -198,7 +200,7 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
  * Possibility to configure the color [themeColor]
  * and the shop logo [imageResource]
  */
-data class SdkConfig(@RawRes private val imageResource: Int = -1, @ColorRes internal val themeColor: Int = -1, val enableSandbox: Boolean = false){
+data class SdkConfig(@RawRes private val imageResource: Int = -1, @ColorRes internal val themeColor: Int = -1, var enableSandbox: Boolean = false){
     internal var imageUrl: String = ""
     internal var color: String = ""
 
@@ -256,12 +258,12 @@ internal data class User(val amount: String = "",
                          val reason: String = "",
                          val name: String = "",
                          val key: String = "",
-                         val callback: String = "",
+                         val callback: String,
                          val phone: String = "",
                          val sdk: String = "android",
                          val theme: String = "",
                          val url: String = "",
-                         val sandbox: Boolean = false,
+                         val sandbox: Boolean,
                          val host: String? = "",
                          val data: String = ""
 ) {
