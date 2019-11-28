@@ -60,7 +60,7 @@ class MomoPay internal constructor(api_key: String) {
      */
     fun from(subscriber: Subscriber): MomoPay {
         if(!sdkIsInitailized) throw kkiaPayNotInitializedException("")
-        paymentRequest = PaymentRequest(subscriber.firstName, subscriber.lastName, subscriber.phoneNumber)
+        paymentRequest = PaymentRequest(subscriber.firstName, subscriber.lastName, subscriber.phoneNumber,stateData = subscriber.data)
         return this
     }
 
@@ -68,11 +68,12 @@ class MomoPay internal constructor(api_key: String) {
     /**
      * Setup clients informations ...
      * @param phoneNumber
+     * @param data payment data object for webhook https://docs.kkiapay.me/v1/tableau-de-bord/webhook
      * @return MomoPay
      */
-    fun from(phoneNumber: String): MomoPay {
+    fun from(phoneNumber: String, data: String = ""): MomoPay {
         if(!sdkIsInitailized) throw kkiaPayNotInitializedException("")
-        paymentRequest = PaymentRequest(phoneNumber = phoneNumber)
+        paymentRequest = PaymentRequest(phoneNumber = phoneNumber, stateData = data)
         return this
     }
 
@@ -182,23 +183,36 @@ private data class PaymentStatus(val transactionId:String, val status: String, v
 
 internal data class Error(val status: Int, val reason: String)
 
-private data class PaymentRequest(val firstname: String ="", val lastname: String="", val phoneNumber: String,
-                                  var amount: Int = 0, var transactionId: String = "", var contact: String = "") {
+private data class PaymentRequest(
+        val firstname: String ="",
+        val lastname: String="",
+        val phoneNumber: String,
+        var amount: Int = 0,
+        var transactionId: String = "",
+        var contact: String = "",
+        var stateData: String = "" ) {
 
     fun json() = Gson().toJson(this).apply {
         this.replace("phone_number", "phoneNumber")
     }
 }
 
-data class Subscriber(val phoneNumber: String, val firstName: String,val lastName: String)
+data class Subscriber(val phoneNumber: String, val firstName: String,val lastName: String, val data: String)
 
+/**
+ * @param phoneNumber payment phone number
+ * @param firstName payment user first name
+ * @param lastName payment user last name
+ * @param data payment data object for webhook https://docs.kkiapay.me/v1/tableau-de-bord/webhook
+ */
  class  SubscriberBuilder {
     private val values = mutableMapOf<String,Any>()
     var phoneNumber: String by values
     var firstName: String by values
     var lastName: String by values
+    var data: String by values
 
-    fun build() = Subscriber(phoneNumber, firstName, lastName)
+    fun build() = Subscriber(phoneNumber, firstName, lastName, data)
 
 }
 
