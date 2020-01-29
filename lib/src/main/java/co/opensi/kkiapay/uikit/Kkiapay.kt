@@ -188,7 +188,7 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
     }
 
     companion object {
-        internal const val KKIAPAY_URL = "https://widget.kkiapay.me"
+        internal const val KKIAPAY_URL = "https://widget.kkiapay.me/v2"
         internal var KKIAPAY_REDIRECT_URL = "http://redirect.kkiapay.me"
         const val KKIAPAY_REQUEST_CODE = 0xABC
         internal const val KKIAPAY_TRANSACTION_ID = "me.kkiapay.uikit.KKIAPAY_TRANSACTION_ID"
