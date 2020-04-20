@@ -7,7 +7,6 @@ import co.opensi.kkiapay.uikit.SdkConfig
 class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
-
         //Initialisation de l'API
         Kkiapay.init(applicationContext,
                 "<PUBLIC-API-KEY>",
