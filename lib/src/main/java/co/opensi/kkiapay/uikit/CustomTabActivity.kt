@@ -32,15 +32,15 @@ internal class CustomTabActivity: Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.custom_tab_activity)
 
-        web_view.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
-        web_view.setBackgroundColor(0x3EFFFFFF.toInt())
+        kkiapay_web_view.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
+        kkiapay_web_view.setBackgroundColor(0x3EFFFFFF.toInt())
 
 
         intent?.run {
             val url = getStringExtra(EXTRA_URL)
             var theme = getIntExtra(EXTRA_THEME,R.color.pink )
             tintIndeterminateProgress(progressbar, ContextCompat.getColor(applicationContext,theme))
-            web_view.run {
+            kkiapay_web_view.run {
                 settings.run {
                     javaScriptEnabled = true
                     useWideViewPort = true
