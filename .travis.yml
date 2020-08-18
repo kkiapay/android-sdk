@@ -37,8 +37,7 @@ deploy:
 - provider: releases
   overwrite: true
   skip_cleanup: true
-  api_key:
-    secure: $GH_TOKEN
+  api_key: $GH_TOKEN
   file: "lib/build/outputs/aar/lib-release.aar"
   on:
     branch: master
