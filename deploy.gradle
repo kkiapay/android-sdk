@@ -1,7 +1,25 @@
-apply plugin: 'com.jfrog.bintray'
+//apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
 
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 publishing {
+    repositories {
+        maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/kkiapay/android-sdk")
+            credentials {
+                username = System.getenv('GITHUB_USER') ?: githubProperties['GITHUB_USER']
+                password = System.getenv('GITHUB_PERSONAL_ACCESS_TOKEN') ?: githubProperties['GITHUB_PERSONAL_ACCESS_TOKEN']
+            }
+        }
+
+        maven {
+            name = 'CustomMavenRepo'
+            url = "file://${buildDir}/repo"
+        }
+    }
     publications {
         Production(MavenPublication) {
             artifact("$buildDir/outputs/aar/lib-release.aar")
@@ -26,6 +44,7 @@ publishing {
     }
 }
 
+/*
 bintray {
     // Get Bintray credential from environment variable
     user = System.getenv('BINTRAY_USER') // Get bintray User
@@ -48,4 +67,4 @@ bintray {
         }
     }
     publications = ['Production']
-}
+}*/
