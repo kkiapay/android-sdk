@@ -23,7 +23,7 @@ and create your account is free and without pain :sunglasses:.
    2- add the following line in your app's `build.gradle` file inside `dependencies` section
    
     ```groovy
-    implementation 'com.github.kkiapay:android-sdk:<latestVersion>'
+        implementation 'com.github.kkiapay:android-sdk:<latestVersion>'
     ```
 
 
