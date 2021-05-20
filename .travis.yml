@@ -44,7 +44,7 @@ deploy:
     tags: true
     repo: kkiapay/android-sdk
 - provider: script
-  script: "./gradlew :clean :lib:assembleRelease :lib:bintrayUpload"
+  script: "./gradlew :clean :lib:assembleRelease"
   skip_cleanup: true
   dry-run: false
   on:

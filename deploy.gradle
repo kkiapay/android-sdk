@@ -14,11 +14,6 @@ publishing {
                 password = System.getenv('GITHUB_PERSONAL_ACCESS_TOKEN') //?: githubProperties['GITHUB_PERSONAL_ACCESS_TOKEN']
             }
         }
-
-        maven {
-            name = 'CustomMavenRepo'
-            url = "file://${buildDir}/repo"
-        }
     }
     publications {
         Production(MavenPublication) {
