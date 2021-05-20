@@ -1,6 +1,6 @@
 ## Kkiapay
 
-[![Build Status](https://travis-ci.org/kkiapay/android-sdk.svg?branch=master)](https://travis-ci.org/kkiapay/android-sdk)   [ ![Download](https://api.bintray.com/packages/kkiapay/KKIAPAY-ANDROID-SDK/android-sdk/images/download.svg) ](https://bintray.com/kkiapay/KKIAPAY-ANDROID-SDK/android-sdk/_latestVersion)
+[![Build Status](https://travis-ci.org/kkiapay/android-sdk.svg?branch=master)](https://travis-ci.org/kkiapay/android-sdk)   [ ![Download](https://api.bintray.com/packages/kkiapay/KKIAPAY-ANDROID-SDK/android-sdk/images/download.svg)](https://bintray.com/kkiapay/KKIAPAY-ANDROID-SDK/android-sdk/_latestVersion)
 
 [Kkiapay](https://kkiapay.me) is developer friendly solution that allows you to accept mobile money and credit card payments
 in your application or website.
