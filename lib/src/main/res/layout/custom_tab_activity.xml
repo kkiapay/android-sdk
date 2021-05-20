@@ -2,23 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="@android:color/transparent">
 
-    <WebView android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <WebView
         android:id="@+id/kkiapay.web.view"
-        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
         android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"/>
+        android:paddingBottom="@dimen/activity_vertical_margin" />
 
     <ProgressBar
         android:id="@+id/progressbar"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
-        android:theme="@style/progressBarBlue"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:theme="@style/progressBarBlue"
         android:visibility="visible" />
 
 </RelativeLayout>

@@ -12,12 +12,19 @@ and create your account is free and without pain :sunglasses:.
 
 ### Android Studio ( or Gradle )
 
-  To add kkiapay in your android app, just add the following line in your app's `build.gradle`
-file inside `dependencies` section
-
-```groovy
-implementation 'co.opensi.kkiapay:kkiapay:<latestVersion>'
- ```
+  To add kkiapay in your android app:
+  
+   1- add the following line in your root `build.gradle` file inside `repositories` sections
+   
+   ```groovy
+       maven { url 'https://jitpack.io' }
+   ```
+   
+   2- add the following line in your app's `build.gradle` file inside `dependencies` section
+   
+    ```groovy
+    implementation 'com.github.kkiapay:android-sdk:<latestVersion>'
+    ```
 
 
 ## Usage

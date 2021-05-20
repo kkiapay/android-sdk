@@ -1,8 +1,4 @@
-//apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
-
-//def githubProperties = new Properties()
-//githubProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 publishing {
     repositories {
@@ -38,28 +34,3 @@ publishing {
         }
     }
 }
-
-/*
-bintray {
-    // Get Bintray credential from environment variable
-    user = System.getenv('BINTRAY_USER') // Get bintray User
-    key = System.getenv('BINTRAY_API_KEY') // Get bintray Secret API Key
-    dryRun = false
-    override = false
-    publish = true
-    pkg {
-        repo = 'KKIAPAY-ANDROID-SDK' // Bintray repo name
-        name = 'android-sdk' // library module name
-        userOrg = 'kkiapay' //  Bintray user name
-        licenses = ['MIT']
-        desc = 'Android SDK for kkiapay API'
-        websiteUrl = 'https://kkiapay.me'
-        vcsUrl = 'https://github.com/kkiapay/android-sdk' // repo url
-
-        version {
-            name = VERSION_NAME //Bintray logical version name
-            vcsTag = VERSION_NAME
-        }
-    }
-    publications = ['Production']
-}*/

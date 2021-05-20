@@ -33,12 +33,11 @@ internal class CustomTabActivity: Activity() {
         setContentView(R.layout.custom_tab_activity)
 
         kkiapay_web_view.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
-        kkiapay_web_view.setBackgroundColor(0x3EFFFFFF.toInt())
 
 
         intent?.run {
             val url = getStringExtra(EXTRA_URL)
-            var theme = getIntExtra(EXTRA_THEME,R.color.pink )
+            val theme = getIntExtra(EXTRA_THEME,R.color.pink )
             tintIndeterminateProgress(progressbar, ContextCompat.getColor(applicationContext,theme))
             kkiapay_web_view.run {
                 settings.run {
@@ -49,6 +48,7 @@ internal class CustomTabActivity: Activity() {
                     layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
                     scrollBarStyle = WebView.SCROLLBARS_OUTSIDE_OVERLAY
                 }
+
                 webViewClient = object : WebViewClient(){
 
                     override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
@@ -104,7 +104,6 @@ internal class CustomTabActivity: Activity() {
                     }
 
                     private fun shouldInterceptRequest(url: String){
-                        Log.i("CustomTabActivity", "shouldInterceptRequest")
                         if (url.startsWith(Me.KKIAPAY_REDIRECT_URL)) {
                             val transactionId = url.split("=")[1].trim()
                             setResult(Activity.RESULT_OK, Intent().apply {
