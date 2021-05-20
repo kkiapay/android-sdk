@@ -42,6 +42,7 @@ internal class CustomTabActivity: Activity() {
             tintIndeterminateProgress(progressbar, ContextCompat.getColor(applicationContext,theme))
             kkiapay_web_view.run {
                 settings.run {
+                    domStorageEnabled = true
                     javaScriptEnabled = true
                     useWideViewPort = true
                     loadWithOverviewMode = true

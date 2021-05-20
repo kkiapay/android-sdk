@@ -15,7 +15,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/TransparentCompat"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
 
     </application>
 </manifest>
