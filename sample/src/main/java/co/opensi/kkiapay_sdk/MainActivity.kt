@@ -4,6 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import co.opensi.kkiapay.KKiapayCallback
+import co.opensi.kkiapay.STATUS
+import co.opensi.kkiapay.Subscriber
 import co.opensi.kkiapay.uikit.Kkiapay
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -30,10 +33,33 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        test_button.setOnClickListener {
+        test_button_without_kkiapay.setOnClickListener {
             // start the payment process
             // This will display a kkiapay payment dialog to user
             Kkiapay.get().requestPayment(this, "1", "Payment of awesome service", "Johna DOE", sandbox = false)
+        }
+
+        test_button_without_kkiapay.setOnClickListener {
+            val subscriber = Subscriber("22961877882", "DOE", "Johna","")
+            val manager = Kkiapay.get().momoPay
+            manager.from(subscriber).debit(1, object : KKiapayCallback {
+                override fun onResponse(
+                    status: STATUS,
+                    phone: String, transactionId: String
+                ) {
+                    when (status) {
+                        STATUS.FAILED -> {
+                            Toast.makeText(this@MainActivity, "Transaction: FAILED -> $transactionId", Toast.LENGTH_LONG).show()
+                        }
+                        STATUS.SUCCESS -> {
+                            Toast.makeText(this@MainActivity, "Transaction: SUCCESS -> $transactionId", Toast.LENGTH_LONG).show()
+                        }
+                        STATUS.INSUFFICIENT_FUND -> {
+                        }
+                        else -> { }
+                    }
+                }
+            })
         }
     }
 
@@ -41,4 +67,5 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         Kkiapay.get().handleActivityResult(requestCode, resultCode, data)
     }
+
 }

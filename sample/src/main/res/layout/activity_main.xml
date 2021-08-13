@@ -7,7 +7,7 @@
     tools:context="co.opensi.kkiapay_sdk.MainActivity">
 
     <Button
-        android:id="@+id/test_button"
+        android:id="@+id/test_button_with_kkiapay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="296dp"
@@ -15,5 +15,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/test_button_without_kkiapay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Pay without kkiaPay widget"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/test_button_with_kkiapay" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
