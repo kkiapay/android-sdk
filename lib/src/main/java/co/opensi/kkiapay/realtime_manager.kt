@@ -49,7 +49,6 @@ fun subscribe(channel: String, event: String, on_connected: () -> Unit, on_event
 
     if (!initialized) init()
 
-
     options.query = "apikey=$PUBLIC_API_KEY&contact=${channel}"
 
     if(::socket.isInitialized){
@@ -88,7 +87,6 @@ fun claim_channel(cb: (String, String) -> Unit) {
 
     CLAIM_NEW_CHANNEL_ENDPOINT.httpGet()
             .responseString { req, response, result ->
-
                 when (result) {
                     is Result.Failure -> {
                         Log.e(TAG, String(response.data) + req.method + req.url)
