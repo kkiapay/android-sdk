@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         testButtonWithoutKkiapay.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View view) {
-                Subscriber subscriber = new Subscriber ("22961877882", "DOE", "Johna","");
+                Subscriber subscriber = new Subscriber ("22961XXXX82", "DOE", "Johna","");
                 MomoPay manager = Kkiapay.get().getMomoPay ();
                 manager.from(subscriber).debit (1,
                         new KKiapayCallback () {
