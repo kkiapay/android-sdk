@@ -2,6 +2,7 @@ package co.opensi.kkiapay
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
@@ -118,7 +119,7 @@ private fun request_payement(paymentRequest:PaymentRequest ,cb: (STATUS, String,
             paymentRequest.contact = channel
             NEW_PAYMENT_ENDPOINT.httpPost().body(paymentRequest.json())
                     .responseString { _, response, result ->
-
+                        Log.e("KKIAPAY:","paymentRequestResponse")
                         when (result) {
                             is Result.Failure -> {
                                 val theError = Gson().fromJson<Error>(String(response.data),Error::class.java)
@@ -146,10 +147,12 @@ private fun request_payement(paymentRequest:PaymentRequest ,cb: (STATUS, String,
                 val paymentStatus = Gson().fromJson<PaymentStatus>(it,PaymentStatus::class.java)
                 when(paymentStatus.isPaymentSucces){
                     true  ->  runOnUiThread { cb(STATUS.SUCCESS,paymentStatus.account,paymentStatus.transactionId) }
-                    false -> when(paymentStatus.failureCode) {
-                        IS_INSUFFICIENT_FUND -> runOnUiThread { cb(STATUS.INSUFFICIENT_FUND,paymentStatus.account,paymentStatus.transactionId)  }
-                        else -> runOnUiThread { cb(STATUS.FAILED,paymentStatus.account,paymentStatus.transactionId) }
-                    }
+                    false -> runOnUiThread { cb(STATUS.FAILED,paymentStatus.account,paymentStatus.transactionId) }
+// I'm comment this line because new response model not contain "paymentStatus.failureCode"
+//                    false -> when(paymentStatus.failureCode) {
+//                        IS_INSUFFICIENT_FUND -> runOnUiThread { cb(STATUS.INSUFFICIENT_FUND,paymentStatus.account,paymentStatus.transactionId)  }
+//                        else -> runOnUiThread { cb(STATUS.FAILED,paymentStatus.account,paymentStatus.transactionId) }
+//                    }
                 }
 
         })

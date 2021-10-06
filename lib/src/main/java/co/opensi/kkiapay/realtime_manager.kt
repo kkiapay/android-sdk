@@ -30,6 +30,9 @@ fun init() {
     options.path = "/websocket"
     initialized = true
 
+    options.transports = arrayOf("websocket")
+    options.forceNew = true
+    options.reconnection = true
 }
 
 /**
@@ -46,19 +49,28 @@ fun subscribe(channel: String, event: String, on_connected: () -> Unit, on_event
 
     if (!initialized) init()
 
-
     options.query = "apikey=$PUBLIC_API_KEY&contact=${channel}"
+
+    if(::socket.isInitialized){
+        Log.e(TAG , "isInitialized")
+        socket.disconnect()
+        socket.off()
+    }
 
     socket = IO.socket(END_POINT, options)
     socket.on(event) {
+        Log.e(TAG, "EVENT_PAYMENT_BACK")
         Log.e(TAG, event + it[0].toString())
         on_event(it[0].toString())
+        socket.disconnect()
     }.on(Socket.EVENT_CONNECT) {
-        Log.e(TAG, "connected")
+        Log.e(TAG, "EVENT_CONNECT")
         on_connected()
     }.on(Socket.EVENT_DISCONNECT) {
-        Log.e(TAG, "disconnected")
-        socket.connect()
+        Log.e(TAG, "EVENT_DISCONNECT")
+       // socket.connect()
+    }.on(Socket.EVENT_RECONNECT) {
+        Log.e(TAG, "EVENT_RECONNECT")
     }.on("safety") {
         Log.e(TAG, it[0].toString())
     }
@@ -75,7 +87,6 @@ fun claim_channel(cb: (String, String) -> Unit) {
 
     CLAIM_NEW_CHANNEL_ENDPOINT.httpGet()
             .responseString { req, response, result ->
-
                 when (result) {
                     is Result.Failure -> {
                         Log.e(TAG, String(response.data) + req.method + req.url)
@@ -87,7 +98,6 @@ fun claim_channel(cb: (String, String) -> Unit) {
                     }
 
                     is Result.Success -> cb(result.get(), "")
-
 
                 }
             }

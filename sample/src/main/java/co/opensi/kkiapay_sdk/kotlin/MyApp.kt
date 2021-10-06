@@ -1,8 +1,9 @@
-package co.opensi.kkiapay_sdk
+package co.opensi.kkiapay_sdk.kotlin
 
 import android.app.Application
 import co.opensi.kkiapay.uikit.Kkiapay
 import co.opensi.kkiapay.uikit.SdkConfig
+import co.opensi.kkiapay_sdk.R
 
 class MyApp : Application() {
     override fun onCreate() {
