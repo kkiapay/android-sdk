@@ -1,6 +1,6 @@
 ## Kkiapay
 
-[![Build Status](https://travis-ci.org/kkiapay/android-sdk.svg?branch=master)](https://travis-ci.org/kkiapay/android-sdk)
+[![Build Status](https://app.travis-ci.com/kkiapay/android-sdk.svg?branch=master)](https://travis-ci.org/kkiapay/android-sdk)
 [![](https://jitpack.io/v/kkiapay/android-sdk.svg)](https://jitpack.io/#kkiapay/android-sdk)
 
 [Kkiapay](https://kkiapay.me) is developer friendly solution that allows you to accept mobile money and credit card payments
