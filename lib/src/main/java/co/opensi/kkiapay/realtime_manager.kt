@@ -98,7 +98,6 @@ fun claim_channel(cb: (String, String) -> Unit) {
                     }
 
                     is Result.Success -> cb(result.get(), "")
-
                 }
             }
 }

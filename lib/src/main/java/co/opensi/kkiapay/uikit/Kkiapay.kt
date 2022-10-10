@@ -25,6 +25,7 @@ import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.core.Parameters
 import com.github.kittinunf.fuel.core.requests.upload
 import com.github.kittinunf.fuel.util.FuelRouting
+import com.github.kittinunf.result.Result
 import com.google.gson.Gson
 import org.apache.commons.codec.binary.Base64
 import org.json.JSONObject
