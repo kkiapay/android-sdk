@@ -113,7 +113,7 @@ internal class CustomTabActivity: Activity() {
                         }
                     }
                 }
-                loadUrl(url)
+                loadUrl(url ?: "")
             }
 
         }

@@ -3,11 +3,11 @@ package co.opensi.kkiapay
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.gson.Gson
-
 
 /**
  * @author Shadai ALI ( shadai.ali@opensi.co )
