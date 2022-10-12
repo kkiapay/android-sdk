@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main)
     }
 
     override fun onStart() {
@@ -35,7 +35,9 @@ class MainActivity : AppCompatActivity() {
         test_button_with_kkiapay.setOnClickListener {
             // start the payment process
             // This will display a kkiapay payment dialog to user
-            Kkiapay.get().requestPayment(this, "1", "Payment of awesome service", "Johna DOE", sandbox = false)
+            Kkiapay.get().requestPayment(this, 1, "Payment of awesome service", name = "Johna DOE",
+                sandbox = true,
+                phone = "22961000000", email = "email@mail.com")
         }
 
         test_button_without_kkiapay.setOnClickListener {

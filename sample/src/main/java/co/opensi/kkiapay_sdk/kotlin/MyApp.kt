@@ -14,6 +14,6 @@ class MyApp : Application() {
             SdkConfig(themeColor = R.color.colorPrimary,
                 imageResource = R.raw.armoiries,
                     /* set enableSandbox = false in case you are using live API Keys */
-                    enableSandbox = false))
+                    enableSandbox = true ))
     }
 }

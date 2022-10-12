@@ -23,14 +23,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate (@Nullable Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
 
         Button testButtonWithKkiapay = (Button) findViewById(R.id.test_button_with_kkiapay);
         testButtonWithKkiapay.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (View view) {
                 Kkiapay.get().requestPayment(MainActivity.this,
-                        "1",
+                        1,
                         "Paiement de services",
                         "Nom Prenom", "");
             }

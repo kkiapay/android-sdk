@@ -104,9 +104,10 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
      */
     @JvmOverloads
     fun requestPayment(activity: AppCompatActivity,
-                       amount: String,
+                       amount: Int,
                        reason: String,
                        name: String,
+                       email: String,
                        phone: String = "",
                        callback: String = KKIAPAY_REDIRECT_URL,
                        data: String = "",
@@ -117,7 +118,9 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
 
         sdkConfig.enableSandbox = sandbox
         KKIAPAY_REDIRECT_URL = callback
-        val user = User(amount, reason, name, apiKey, callback, phone, sandbox = sandbox, data = data)
+        val user = User(amount= amount, reason= reason, email=email,
+            fullname = name, key= apiKey, callback= callback,
+            phoneNumber = phone, sandbox = sandbox, data = data)
         requestPaymentAction = RequestPaymentAction(user)
         requestPaymentAction?.invoke(activity, sdkConfig)
     }
@@ -144,11 +147,13 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
      */
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         if (requestCode == KKIAPAY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            Log.d("Kkiapay.me", "handleActivityResult")
             data?.run {
                 if (hasExtra(KKIAPAY_TRANSACTION_ID)){
+                    Log.d("Kkiapay.me", "hasExtra")
                     val transactionId = getStringExtra(KKIAPAY_TRANSACTION_ID)
                     transactionId?.let {
-                        (if (sdkConfig.enableSandbox) ::sandboxCheckTransactionStatus
+                        (if (sdkConfig.enableSandbox) :: sandboxCheckTransactionStatus
                         else ::checkTransactionStatus).invoke(it)
                                 .responseString { _, _, result ->
                                     result.fold({ resutlString ->
@@ -161,7 +166,8 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
                                             else -> STATUS.UNKNOWN
                                         },
                                                 transaction.transactionId)
-                                    }){fuelError ->
+                                    })
+                                    { fuelError ->
                                         Log.i("Kkiapay.me", fuelError.toString())
                                         val theError = Gson().fromJson<Error>(String(fuelError.errorData), Error::class.java)
                                         theError?.let {error ->
@@ -189,7 +195,7 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
     }
 
     companion object {
-        internal const val KKIAPAY_URL = "https://widget-v2.kkiapay.me"
+        internal const val KKIAPAY_URL = "https://widget-v3.kkiapay.me"
         internal var KKIAPAY_REDIRECT_URL = "http://redirect.kkiapay.me"
         const val KKIAPAY_REQUEST_CODE = 0xABC
         internal const val KKIAPAY_TRANSACTION_ID = "me.kkiapay.uikit.KKIAPAY_TRANSACTION_ID"
@@ -245,28 +251,33 @@ data class SdkConfig(@RawRes private val imageResource: Int = -1, @ColorRes inte
 internal class RequestPaymentAction(private val user: User) {
 
     operator fun invoke(activity: AppCompatActivity, sdkConfig: SdkConfig){
+        Log.d("TAG", user.toJson())
+        Log.d("TAG", "$KKIAPAY_URL/?${user.toBase64(activity.applicationContext, sdkConfig)}")
         activity.startActivityForResult(
                 Intent(activity, CustomTabActivity::class.java).apply {
                     putExtra(CustomTabActivity.EXTRA_URL,
-                            "$KKIAPAY_URL/?=${user.toBase64(activity.applicationContext, sdkConfig)}")
+                            "$KKIAPAY_URL/?${user.toBase64(activity.applicationContext, sdkConfig)}")
                     putExtra(CustomTabActivity.EXTRA_THEME,
                             sdkConfig.themeColor)
                 }, KKIAPAY_REQUEST_CODE)
     }
 }
 
-internal data class User(val amount: String = "",
+internal data class User(val amount: Int = 1,
                          val reason: String = "",
-                         val name: String = "",
+                         val fullname: String = "",
                          val key: String = "",
                          val callback: String,
-                         val phone: String = "",
+                         val phoneNumber: String = "",
+                         val email: String = "",
                          val sdk: String = "android",
                          val theme: String = "",
                          val url: String = "",
                          val sandbox: Boolean,
                          val host: String? = "",
-                         val data: String = ""
+                         val data: String = "",
+                         val serviceId: String = "INTEGRATION",
+                         val paymentMethods: List<String> = listOf("momo","card","direct_debit")
 ) {
     fun toBase64(context: Context, sdkConfig: SdkConfig) : String{
         val preConvertion = this.copy(
@@ -277,6 +288,7 @@ internal data class User(val amount: String = "",
         val userJson = Gson().toJson(preConvertion).toString()
         return String(Base64.encodeBase64(userJson.toByteArray()))
     }
+    fun toJson() = Gson().toJson(this)
 }
 
 
