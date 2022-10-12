@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.annotation.ColorRes
 import androidx.annotation.RawRes
@@ -153,24 +155,41 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
                     Log.d("Kkiapay.me", "hasExtra")
                     val transactionId = getStringExtra(KKIAPAY_TRANSACTION_ID)
                     transactionId?.let {
-                        (if (sdkConfig.enableSandbox) :: sandboxCheckTransactionStatus
-                        else ::checkTransactionStatus).invoke(it)
+                        (if (sdkConfig.enableSandbox) :: sandboxCheckTransactionStatus else ::checkTransactionStatus).invoke(it)
                                 .responseString { _, _, result ->
                                     result.fold({ resutlString ->
                                         val transaction = Gson().fromJson<Transaction>(resutlString, Transaction::class.java)
-                                        sdkListener?.invoke(when(transaction.status){
+                                        Log.i("Kkiapay.me", transaction.toJson())
+                                        Handler(Looper.getMainLooper()).post {
+                                            //code that runs in main
+                                            sdkListener?.invoke( when(transaction.status){
+                                                "SUCCESS" -> STATUS.SUCCESS
+                                                "INVALID_TRANSACTION" -> STATUS.INVALID_TRANSACTION
+                                                "TRANSACTION_NOT_FOUND" -> STATUS.TRANSACTION_NOT_FOUND
+                                                "FAILED" -> STATUS.FAILED
+                                                else -> STATUS.UNKNOWN
+                                            }, transaction.transactionId)
+                                        }
+                                        sdkListener?.invoke( when(transaction.status){
                                             "SUCCESS" -> STATUS.SUCCESS
                                             "INVALID_TRANSACTION" -> STATUS.INVALID_TRANSACTION
                                             "TRANSACTION_NOT_FOUND" -> STATUS.TRANSACTION_NOT_FOUND
                                             "FAILED" -> STATUS.FAILED
                                             else -> STATUS.UNKNOWN
-                                        },
-                                                transaction.transactionId)
+                                        }, transaction.transactionId)
                                     })
                                     { fuelError ->
                                         Log.i("Kkiapay.me", fuelError.toString())
                                         val theError = Gson().fromJson<Error>(String(fuelError.errorData), Error::class.java)
                                         theError?.let {error ->
+                                            Handler(Looper.getMainLooper()).post {
+                                                //code that runs in main
+                                                sdkListener?.invoke(when(error.status) {
+                                                    4001 -> STATUS.INVALID_PHONE_NUMBER
+                                                    4003 -> STATUS.INVALID_API_KEY
+                                                    else -> STATUS.FAILED
+                                                }, null)
+                                            }
                                             sdkListener?.invoke(when(error.status) {
                                                 4001 -> STATUS.INVALID_PHONE_NUMBER
                                                 4003 -> STATUS.INVALID_API_KEY
@@ -184,7 +203,8 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
                     } ?: kotlin.run {
                         sdkListener?.invoke(STATUS.SUCCESS, null)
                     }
-                } else
+                }
+                else
                     sdkListener?.invoke(STATUS.SUCCESS, null)
             } ?: let {
                 sdkListener?.invoke(STATUS.SUCCESS, null)

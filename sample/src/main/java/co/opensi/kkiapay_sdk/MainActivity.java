@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Unit invoke(STATUS status, String s) {
                 //The following code will be run when user will end the payment
-                Toast.makeText(MainActivity.this, "Transaction: ${status.name} -> $transactionId", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Transaction: " + status.name()+ "->" + s , Toast.LENGTH_LONG).show();
                 return null;
             }
         });
