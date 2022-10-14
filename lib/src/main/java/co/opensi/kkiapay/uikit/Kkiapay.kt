@@ -107,10 +107,13 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
     @JvmOverloads
     fun requestPayment(activity: AppCompatActivity,
                        amount: Int,
-                       reason: String,
+                       reason: String="",
                        name: String,
-                       email: String,
-                       phone: String = "",
+                       email: String = "",
+                       countries: List<String> = listOf("BJ"),
+                       paymentMethods: List<String> = listOf("momo","card","direct_debit"),
+                       partnerId: String = "",
+                       phone: String ,
                        callback: String = KKIAPAY_REDIRECT_URL,
                        data: String = "",
                        sandbox: Boolean = sdkConfig.enableSandbox
@@ -122,7 +125,8 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
         KKIAPAY_REDIRECT_URL = callback
         val user = User(amount= amount, reason= reason, email=email,
             fullname = name, key= apiKey, callback= callback,
-            phoneNumber = phone, sandbox = sandbox, data = data)
+            phoneNumber = phone, sandbox = sandbox, data = data,
+            countries = countries, partnerId = partnerId, paymentMethods = paymentMethods )
         requestPaymentAction = RequestPaymentAction(user)
         requestPaymentAction?.invoke(activity, sdkConfig)
     }
@@ -149,10 +153,8 @@ class Me internal constructor(context: Context, private val apiKey: String, priv
      */
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
         if (requestCode == KKIAPAY_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            Log.d("Kkiapay.me", "handleActivityResult")
             data?.run {
                 if (hasExtra(KKIAPAY_TRANSACTION_ID)){
-                    Log.d("Kkiapay.me", "hasExtra")
                     val transactionId = getStringExtra(KKIAPAY_TRANSACTION_ID)
                     transactionId?.let {
                         (if (sdkConfig.enableSandbox) :: sandboxCheckTransactionStatus else ::checkTransactionStatus).invoke(it)
@@ -297,6 +299,8 @@ internal data class User(val amount: Int = 1,
                          val host: String? = "",
                          val data: String = "",
                          val serviceId: String = "INTEGRATION",
+                         val partnerId: String = "",
+                         val countries: List<String> = listOf("BJ","CI"),
                          val paymentMethods: List<String> = listOf("momo","card","direct_debit")
 ) {
     fun toBase64(context: Context, sdkConfig: SdkConfig) : String{

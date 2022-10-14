@@ -107,10 +107,10 @@ internal class CustomTabActivity: Activity() {
                     private fun shouldInterceptRequest(url: String){
                         Log.d("Kkiapay.me", "shouldInterceptRequest")
                         if (url.startsWith(Me.KKIAPAY_REDIRECT_URL)) {
-                            Log.d("Kkiapay.me", url)
+                            //Log.d("Kkiapay.me", url)
                             val link = Uri.parse(url)
                             val transactionId = link.getQueryParameter("transaction_id")
-                            Log.d("TAG", "$transactionId")
+                            //Log.d("TAG", "$transactionId")
                             setResult(Activity.RESULT_OK, Intent().apply {
                                 putExtra(KKIAPAY_TRANSACTION_ID, transactionId)
                             })
