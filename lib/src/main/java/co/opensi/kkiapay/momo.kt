@@ -179,7 +179,9 @@ infix fun String.debit(amount : Int): ((STATUS, String, String) -> Unit) -> Unit
 
 internal data class Transaction (val transactionId:String,
                                 val internalTransactionId: String,
-                                val status: String)
+                                val status: String){
+    fun toJson() = Gson().toJson(this)
+}
 
 private data class PaymentStatus(val transactionId:String, val status: String, val isPaymentSucces: Boolean,
                                  val failureCode: String, val failureMessage: String, val account: String)

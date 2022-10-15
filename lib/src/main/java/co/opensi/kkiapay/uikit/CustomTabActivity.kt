@@ -8,6 +8,7 @@ import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.drawable.LayerDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -104,8 +105,12 @@ internal class CustomTabActivity: Activity() {
                     }
 
                     private fun shouldInterceptRequest(url: String){
+                        Log.d("Kkiapay.me", "shouldInterceptRequest")
                         if (url.startsWith(Me.KKIAPAY_REDIRECT_URL)) {
-                            val transactionId = url.split("=")[1].trim()
+                            //Log.d("Kkiapay.me", url)
+                            val link = Uri.parse(url)
+                            val transactionId = link.getQueryParameter("transaction_id")
+                            //Log.d("TAG", "$transactionId")
                             setResult(Activity.RESULT_OK, Intent().apply {
                                 putExtra(KKIAPAY_TRANSACTION_ID, transactionId)
                             })

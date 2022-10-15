@@ -11,7 +11,7 @@ public class MyApp extends Application {
         super.onCreate ();
         //Initialisation de l'API
         Kkiapay.init(this,
-                "<your-api-key>",
-                new SdkConfig (R.raw.armoiries, R.color.colorPrimary, false));
+                "<PUBLIC-API-KEY>",
+                new SdkConfig (R.raw.armoiries, R.color.colorPrimary, true));
     }
 }
