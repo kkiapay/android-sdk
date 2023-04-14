@@ -26,7 +26,11 @@ class MainActivity : AppCompatActivity() {
         Kkiapay.get().setListener { status, transactionId ->
 
             //The following code will be run when user will end the payment
-            Toast.makeText(this@MainActivity, "Transaction: ${status.name} -> $transactionId", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this@MainActivity,
+                "Transaction: ${status.name} -> $transactionId",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -35,15 +39,23 @@ class MainActivity : AppCompatActivity() {
         test_button_with_kkiapay.setOnClickListener {
             // start the payment process
             // This will display a kkiapay payment dialog to user
-            Kkiapay.get().requestPayment(this, 1,
-                reason = "Payment of awesome service", name = "Johna DOE",
-                sandbox = true, countries = listOf("CI"), partnerId = "AxXxxXXid",
-                phone = "2250577100000", email = "email@mail.com",
-                paymentMethods = listOf("momo","card","direct_debit"))
+            Kkiapay.get().requestPayment(
+                this,
+                1,
+                reason = "Payment of awesome service",
+                name = "Johna DOE",
+                sandbox = true,
+                countries = listOf("CI"),
+                partnerId = "AxXxxXXid",
+                phone = "2250577100000",
+                email = "email@mail.com",
+                paymentMethods = listOf("momo", "card", "direct_debit"),
+                customApiKey = "<custom-api-key>",
+            )
         }
 
         test_button_without_kkiapay.setOnClickListener {
-            val subscriber = Subscriber("22961877882", "DOE", "Johna","")
+            val subscriber = Subscriber("22961877882", "DOE", "Johna", "")
             val manager = Kkiapay.get().momoPay
             manager.from(subscriber).debit(1, object : KKiapayCallback {
                 override fun onResponse(
@@ -52,14 +64,22 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     when (status) {
                         STATUS.FAILED -> {
-                            Toast.makeText(this@MainActivity, "Transaction: FAILED -> $transactionId", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Transaction: FAILED -> $transactionId",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                         STATUS.SUCCESS -> {
-                            Toast.makeText(this@MainActivity, "Transaction: SUCCESS -> $transactionId", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Transaction: SUCCESS -> $transactionId",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                         STATUS.INSUFFICIENT_FUND -> {
                         }
-                        else -> { }
+                        else -> {}
                     }
                 }
             })
