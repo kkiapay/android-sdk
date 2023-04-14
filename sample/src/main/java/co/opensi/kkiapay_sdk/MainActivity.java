@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick (View view) {
                 Kkiapay.get().requestPayment(MainActivity.this,
                         1,
-                        "Paiement de services",
-                        "Nom Prenom", "");
+                        "TEST TEST",
+                        "61000000", "test@gmail.com", "Paiement de services", "7574a160381111eca8f5b92f2997955b");
             }
         });
 
