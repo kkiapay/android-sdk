@@ -16,7 +16,7 @@ publishing {
             artifact("$buildDir/outputs/aar/lib-release.aar")
             groupId 'co.opensi.kkiapay' // replace with your groupId
             artifactId 'kkiapay' // replace with your artifactId
-            version VERSION_NAME
+            version "1.4.0"
 
             //The publication doesn't know about our dependencies, so we have to manually add them to the pom
             pom.withXml {
