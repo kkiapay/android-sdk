@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 
 
 android {
+    namespace 'co.opensi.kkiapay_sdk'
     compileSdk 34
     defaultConfig {
         applicationId "co.opensi.kkiapay_sdk"
