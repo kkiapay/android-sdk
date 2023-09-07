@@ -1,4 +1,4 @@
-package co.opensi.kkiapay
+package co.opensi.kkiapay_android_sdk
 
 
 /**
