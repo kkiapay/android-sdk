@@ -3,44 +3,16 @@ package co.opensi.kkiapay.uikit
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.annotation.ColorRes
-import androidx.annotation.RawRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import co.opensi.kkiapay.Error
-import co.opensi.kkiapay.MomoPay
-import co.opensi.kkiapay.STATUS
-import co.opensi.kkiapay.Transaction
-import co.opensi.kkiapay.uikit.KKiapayApi.Companion.checkTransactionStatus
 import co.opensi.kkiapay.uikit.Me.Companion.KKIAPAY_REQUEST_CODE
 import co.opensi.kkiapay.uikit.Me.Companion.KKIAPAY_URL
-import co.opensi.kkiapay.uikit.SandBoxKKiapayApi.Companion.sandboxCheckTransactionStatus
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.FileDataPart
-import com.github.kittinunf.fuel.core.HeaderValues
-import com.github.kittinunf.fuel.core.Method
-import com.github.kittinunf.fuel.core.Parameters
-import com.github.kittinunf.fuel.core.requests.upload
-import com.github.kittinunf.fuel.util.FuelRouting
-import com.github.kittinunf.result.Result
+import co.opensi.kkiapay_android_sdk.STATUS
 import com.google.gson.Gson
 import org.apache.commons.codec.binary.Base64
-import org.json.JSONObject
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.util.*
 
-/**
- * @author Armel FAGBEDJI ( armel.fagbedji@opensi.co )
- * created  at 01/03/2019
- */
 
 object Kkiapay {
     private lateinit var me: Me
@@ -90,15 +62,12 @@ class Me internal constructor(
     /**
      * MomoPay Instance
      */
-    val momoPay: MomoPay
 
     init {
-        KKiapayApi.apiKey = apiKey
         sdkConfig.run {
             convertColorToString(context)
-            convertImageResToImageUrl(context)
+            //convertImageResToImageUrl(context)
         }
-        momoPay = MomoPay(apiKey)
     }
 
     /**
@@ -119,24 +88,20 @@ class Me internal constructor(
         amount: Int,
         name: String,
         phone: String,
+        api_key: String,
+        sandbox: Boolean,
         email: String = "",
         reason: String = "",
-        customApiKey: String? = null,
         partnerId: String = "",
         data: String = "",
         countries: List<String> = listOf("BJ"),
         paymentMethods: List<String> = listOf("momo", "card", "direct_debit"),
         callback: String = KKIAPAY_REDIRECT_URL,
-        sandbox: Boolean = sdkConfig.enableSandbox,
     ) {
         sdkListener ?: throw IllegalAccessException(
             "Sdk Listener is null, you must setup one before the call of" +
                     " \"requestPayment\" methode"
         )
-
-        if (customApiKey != null){
-            KKiapayApi.apiKey = customApiKey
-        }
 
         sdkConfig.enableSandbox = sandbox
         KKIAPAY_REDIRECT_URL = callback
@@ -145,7 +110,7 @@ class Me internal constructor(
             reason = reason,
             email = email,
             fullname = name,
-            key = customApiKey ?: apiKey,
+            key = api_key,
             callback = callback,
             phoneNumber = phone,
             sandbox = sandbox,
@@ -184,67 +149,9 @@ class Me internal constructor(
                 if (hasExtra(KKIAPAY_TRANSACTION_ID)) {
                     val transactionId = getStringExtra(KKIAPAY_TRANSACTION_ID)
                     transactionId?.let {
-                        (if (sdkConfig.enableSandbox) ::sandboxCheckTransactionStatus else ::checkTransactionStatus).invoke(
-                            it
-                        )
-                            .responseString { _, _, result ->
-                                result.fold({ resutlString ->
-                                    val transaction = Gson().fromJson<Transaction>(
-                                        resutlString,
-                                        Transaction::class.java
-                                    )
-                                    Log.i("Kkiapay.me", transaction.toJson())
-                                    Handler(Looper.getMainLooper()).post {
-                                        //code that runs in main
-                                        sdkListener?.invoke(
-                                            when (transaction.status) {
-                                                "SUCCESS" -> STATUS.SUCCESS
-                                                "INVALID_TRANSACTION" -> STATUS.INVALID_TRANSACTION
-                                                "TRANSACTION_NOT_FOUND" -> STATUS.TRANSACTION_NOT_FOUND
-                                                "FAILED" -> STATUS.FAILED
-                                                else -> STATUS.UNKNOWN
-                                            }, transaction.transactionId
-                                        )
-                                    }
-                                    sdkListener?.invoke(
-                                        when (transaction.status) {
-                                            "SUCCESS" -> STATUS.SUCCESS
-                                            "INVALID_TRANSACTION" -> STATUS.INVALID_TRANSACTION
-                                            "TRANSACTION_NOT_FOUND" -> STATUS.TRANSACTION_NOT_FOUND
-                                            "FAILED" -> STATUS.FAILED
-                                            else -> STATUS.UNKNOWN
-                                        }, transaction.transactionId
-                                    )
-                                })
-                                { fuelError ->
-                                    Log.i("Kkiapay.me", fuelError.toString())
-                                    val theError = Gson().fromJson<Error>(
-                                        String(fuelError.errorData),
-                                        Error::class.java
-                                    )
-                                    theError?.let { error ->
-                                        Handler(Looper.getMainLooper()).post {
-                                            //code that runs in main
-                                            sdkListener?.invoke(
-                                                when (error.status) {
-                                                    4001 -> STATUS.INVALID_PHONE_NUMBER
-                                                    4003 -> STATUS.INVALID_API_KEY
-                                                    else -> STATUS.FAILED
-                                                }, null
-                                            )
-                                        }
-                                        sdkListener?.invoke(
-                                            when (error.status) {
-                                                4001 -> STATUS.INVALID_PHONE_NUMBER
-                                                4003 -> STATUS.INVALID_API_KEY
-                                                else -> STATUS.FAILED
-                                            }, null
-                                        )
-                                    } ?: kotlin.run {
-                                        sdkListener?.invoke(STATUS.FAILED, null)
-                                    }
-                                }
-                            }
+                        kotlin.run {
+                            sdkListener?.invoke(STATUS.SUCCESS, it)
+                        }
                     } ?: kotlin.run {
                         sdkListener?.invoke(STATUS.SUCCESS, null)
                     }
@@ -272,7 +179,6 @@ class Me internal constructor(
  * and the shop logo [imageResource]
  */
 data class SdkConfig(
-    @RawRes private val imageResource: Int = -1,
     @ColorRes internal val themeColor: Int = -1,
     var enableSandbox: Boolean = false
 ) {
@@ -286,7 +192,7 @@ data class SdkConfig(
         }
     }
 
-    internal fun convertImageResToImageUrl(context: Context) {
+   /*internal fun convertImageResToImageUrl(context: Context) {
         if (imageResource != -1) {
             val stream = context.resources.openRawResource(imageResource)
             var bitmap = BitmapFactory.decodeStream(stream)
@@ -317,6 +223,8 @@ data class SdkConfig(
         original.compress(Bitmap.CompressFormat.WEBP, 100, out)
         return BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
     }
+
+    */
 }
 
 internal class RequestPaymentAction(private val user: User) {
@@ -369,110 +277,4 @@ internal data class User(
     }
 
     fun toJson() = Gson().toJson(this)
-}
-
-
-private sealed class SandBoxKKiapayApi : FuelRouting {
-    override val basePath: String
-        get() = "https://api-sandbox.kkiapay.me"
-
-    override val headers: Map<String, HeaderValues>?
-        get() = mapOf("x-api-key" to listOf(KKiapayApi.apiKey))
-
-    override val method: Method
-        get() = Method.POST
-
-    override val body: String?
-        get() = null
-
-    override val bytes: ByteArray?
-        get() = null
-
-    override val params: Parameters?
-        get() = emptyList()
-
-
-    private class SandBoxCheckTansactionStatus(private val transactionId: String) :
-        SandBoxKKiapayApi() {
-        override val path: String
-            get() = "/api/v1/transactions/status"
-
-        override val headers: Map<String, HeaderValues>?
-            get() = super.headers?.plus("Content-Type" to listOf("application/json"))
-
-        override val body: String?
-            get() = JSONObject().putOpt("transactionId", transactionId).toString()
-    }
-
-    companion object {
-        internal fun sandboxCheckTransactionStatus(transactionId: String) =
-            Fuel.request(SandBoxCheckTansactionStatus(transactionId))
-    }
-}
-
-private sealed class KKiapayApi : FuelRouting {
-    override val basePath: String
-        get() = "https://api.kkiapay.me"
-
-    override val headers: Map<String, HeaderValues>?
-        get() = mapOf("x-api-key" to listOf(apiKey))
-
-    override val method: Method
-        get() = Method.POST
-
-    override val body: String?
-        get() = null
-
-    override val bytes: ByteArray?
-        get() = null
-
-    override val params: Parameters?
-        get() = emptyList()
-
-    private class UploadFile(private val classification: String = "android_client_store_icon") :
-        KKiapayApi() {
-        override val path: String
-            get() = "/utils/upload"
-
-        override val params: List<Pair<String, Any?>>?
-            get() = listOf("type" to classification)
-    }
-
-    private class CheckTansactionStatus(private val transactionId: String) : KKiapayApi() {
-        override val path: String
-            get() = "/api/v1/transactions/status"
-
-        override val headers: Map<String, HeaderValues>?
-            get() = super.headers?.plus("Content-Type" to listOf("application/json"))
-
-        override val body: String?
-            get() = JSONObject().putOpt("transactionId", transactionId).toString()
-    }
-
-    private class GetUploadedFile(private val fileKey: String) : KKiapayApi() {
-        override val path: String
-            get() = "/utils/file/$fileKey"
-
-        override val method: Method
-            get() = Method.GET
-    }
-
-    companion object {
-        internal lateinit var apiKey: String
-
-        internal fun uploadFile(file: File?) =
-            file?.run {
-                Fuel.request(UploadFile())
-                    .upload()
-                    .add { FileDataPart(this, name = "file") }
-            }
-
-        internal fun checkTransactionStatus(transactionId: String) =
-            Fuel.request(CheckTansactionStatus(transactionId))
-
-        internal fun getUploadedFile(fileKey: String?) =
-            fileKey?.run {
-                Fuel.request(GetUploadedFile(fileKey))
-            }
-    }
 }

@@ -19,8 +19,9 @@ import android.widget.ProgressBar
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import co.opensi.kkiapay.R
+import co.opensi.kkiapay.uikit.Me
 import co.opensi.kkiapay.uikit.Me.Companion.KKIAPAY_TRANSACTION_ID
-import kotlinx.android.synthetic.main.custom_tab_activity.*
+
 
 /**
  * @author Armel FAGBEDJI ( armel.fagbedji@opensi.co )
@@ -33,14 +34,17 @@ internal class CustomTabActivity: Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.custom_tab_activity)
 
-        kkiapay_web_view.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
+        val webView = findViewById<WebView>(R.id.kkiapayWebView)
+        val progressbar = findViewById<ProgressBar>(R.id.progressbar)
 
+
+        webView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null)
 
         intent?.run {
             val url = getStringExtra(EXTRA_URL)
             val theme = getIntExtra(EXTRA_THEME,R.color.pink )
             tintIndeterminateProgress(progressbar, ContextCompat.getColor(applicationContext,theme))
-            kkiapay_web_view.run {
+            webView.run {
                 settings.run {
                     domStorageEnabled = true
                     javaScriptEnabled = true
