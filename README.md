@@ -31,102 +31,60 @@ Before using this SDK, make sure you have an active Merchant Account on [Kkiapay
 
 Get your API Key on [kkiapay Dashboard at Developer section](https://kkiapay.me/#/developers) and initialize the Sdk in your Application Class
 
-#### Kotlin
-Still using java ? :frowning: We've got you covered too, jump to this [section](#java) :sunglasses:
-##### Initiate the API
+
+### Initiate the API
 In the onCreate method of your Application class
 ```kotlin
 Kkiapay.init(applicationContext,
-            "<kkiapay-api-key>",
-            SdkConfig(themeColor = R.color.colorPrimary, imageResource = R.raw.armoiries, 
-            /* set this to false in prod */ enableSandbox = true))
-```
-**Quick payment request**
-
-```kotlin
-"22967434270" debit 100
-//To recover 100 XOF from account (674324270)
+    "<kkiapay-api-key>",
+    SdkConfig(themeColor = R.color.colorPrimary,
+        /* set enableSandbox = false in case you are using live API Keys */
+        enableSandbox = true )
+)
 ```
 
-To manage request status you should process like this
+
+### Example
 ```kotlin
- ("22967434270" debit  100) { status, phone, transactionId -> when (status) {
+    override fun onStart() {
+        super.onStart()
 
-               STATUS.SUCCESS -> // payment is succed
-               STATUS.INSUFFICIENT_FUND -> // user haven't enough money
-               // .....
-            }
-
+        // Setup listener for payment status
+        Kkiapay.get().setListener { status, transactionId ->
+            //The following code will be run when user will end the payment
+            Toast.makeText(
+                this@MainActivity,
+                "Transaction: ${status.name} -> $transactionId",
+                Toast.LENGTH_LONG
+            ).show()
         }
-```
+    }
 
-**Complete payment request with user's data**
-```kotlin
-// subscrber details are usefull on dashboard.kkiapay.me
-  from {
-          phoneNumber = "22967434270"
-          firstName = "ALI"
-          lastName = "SHAD"
-          
-  }.debit(100) { status, phone, transactionId ->
-        //handle response
-   }
-```
+    override fun onResume() {
+        super.onResume()
+        val testButtonWithKkiapay = findViewById<Button>(R.id.test_button_with_kkiapay)
+        testButtonWithKkiapay.setOnClickListener {
+            // start the payment process
+            // This will display a kkiapay payment dialog to user
+            Kkiapay.get().requestPayment(
+                this,
+                1,
+                reason = "Payment of awesome service",
+                api_key = "<kkiapay-api-key>",
+                sandbox = false,
+                name = "Johna DOE",
+                partnerId = "AxXxxXXid",
+                phone = "22961877882",
+                email = "email@mail.com",
+                paymentMethods = listOf("momo", "card", "direct_debit"),
+            )
+        }
+    }
 
-**Request payment via UI-SDK Kit**
-First, configure a listener to UI-KIT SDK: 
-```kotlin
-    Kkiapay.get()
-           .setListener{ status, transactionId  ->
-              Toast.makeText(activity, "Transaction: ${status.name} -> $transactionId", Toast.LENGTH_LONG).show()
-            }
-```
-
-Second, configure event handling from the UI-KIT SDK in your activity onActivityResult methode:
-```kotlin
-    Kkiapay.get().handleActivityResult(requestCode, resultCode, data)
-```
-
-Finally, launch your payment request via UI-KIT SDK:
-```kotlin
-    Kkiapay.get().requestPayment(this, "1","Paiement de services","Nom Prenom")
-```
-
--------
-
-#### JAVA
-##### Initiate the API
-In the onCreate method of your Application class or at the first line of  your MainActivity class.
-```java
-    Kkiapay.init(this, "<kkiapay-api-key>", new SdkConfig(R.drawable.ic_app_logo, R.color.colorPrimary, true));
-```
-
-**Add a payment status listener**
-```java
-    // Add this to your activity onCreate method
-    Kkiapay.get().setListener(new Function2<STATUS, String, Unit>() {
-            @Override
-            public Unit invoke(STATUS status, String s) {
-                Toast.makeText(YourActivityName.this, "Transaction: " + status + " -> " + s, Toast.LENGTH_LONG).show();
-                return null;
-            }
-        });
-```
-
-Second, configure event handling from the SDK in your activity onActivityResult method :
-```java
-    Kkiapay.get().handleActivityResult(requestCode, resultCode, data);
-```
-
-Finally, launch your payment request:
-```java
-    Kkiapay.get().requestPayment(
-      YourActivityName.this, 
-      "1000", 
-      "Paiement de services", 
-      "JOHN DOE", 
-      "61XXXXXX"
-    );
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Kkiapay.get().handleActivityResult(requestCode, resultCode, data)
+    }
 ```
 
 
