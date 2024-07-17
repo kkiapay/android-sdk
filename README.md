@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                 this,
                 1,
                 reason = "Payment of awesome service",
-                api_key = "LprYUAyMpfAjq4z2yTHPiY0b6XktIQ",
+                api_key = "<kkiapay-api-key>",
                 sandbox = false,
                 name = "Johna DOE",
                 partnerId = "AxXxxXXid",
