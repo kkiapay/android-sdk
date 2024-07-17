@@ -51,6 +51,15 @@ Kkiapay.init(applicationContext,
 
 ### Example
 ```kotlin
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import co.opensi.kkiapay.uikit.Kkiapay
+```
+
+```kotlin
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
